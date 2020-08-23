@@ -19,6 +19,6 @@ public class Spawner : MonoBehaviour
         Vector2 randomPosition = new Vector2(randomXPos, transform.position.y);
         Debug.Log($"Random index number: {randomIndex}");
         Debug.Log($"Random start position: {randomPosition.x}");
-        GameObject animalInstance = Instantiate(animals[randomIndex], randomPosition, Quaternion.identity);
+        GameObject animalInstance = Instantiate(animals[randomIndex], randomPosition, Quaternion.identity) as GameObject;
     }
 }

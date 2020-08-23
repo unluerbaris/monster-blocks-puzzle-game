@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    float gravitySpeed = 0.25f;
+    float gravitySpeed = 2f; //0.25f;
     float xSpeed = 0.5f;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        gravitySpeed = 0f;
+        GameObject.FindWithTag("Spawner").GetComponent<Spawner>().SpawnObject();
+        Destroy(GetComponent<Rigidbody2D>());
+        Destroy(this);
+    }
 
     void Update()
     {
