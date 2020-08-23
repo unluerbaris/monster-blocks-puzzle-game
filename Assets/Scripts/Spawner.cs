@@ -15,9 +15,10 @@ public class Spawner : MonoBehaviour
     public void SpawnObject()
     {
         int randomIndex = Random.Range(0, animals.Length);
-        Vector2 randomPosition = new Vector2(Random.Range(transform.position.x - 10, transform.position.x + 10), transform.position.y);
-        Debug.Log(randomIndex);
-        Debug.Log(randomPosition.x);
+        int randomXPos = Random.Range((int)transform.position.x - 3, (int)transform.position.x + 3);
+        Vector2 randomPosition = new Vector2(randomXPos, transform.position.y);
+        Debug.Log($"Random index number: {randomIndex}");
+        Debug.Log($"Random start position: {randomPosition.x}");
         GameObject animalInstance = Instantiate(animals[randomIndex], randomPosition, Quaternion.identity);
     }
 }

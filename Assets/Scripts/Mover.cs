@@ -14,10 +14,12 @@ public class Mover : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x + xSpeed, transform.position.y), 1);
+            Debug.Log($"New x position: {transform.position.x}");
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x - xSpeed, transform.position.y), 1);
+            Debug.Log($"New x position: {transform.position.x}");
         }
     }
 }
