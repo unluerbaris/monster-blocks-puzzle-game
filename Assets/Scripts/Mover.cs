@@ -5,7 +5,7 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     float gravitySpeed = 0.25f;
-    float xSpeed = 32f;
+    float xSpeed = 0.5f;
 
     void Update()
     {
@@ -13,11 +13,11 @@ public class Mover : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            transform.position += transform.right * xSpeed * Time.deltaTime;
+            transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x + xSpeed, transform.position.y), 1);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            transform.position -= transform.right * xSpeed * Time.deltaTime;
+            transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x - xSpeed, transform.position.y), 1);
         }
     }
 }
