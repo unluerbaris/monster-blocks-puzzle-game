@@ -28,6 +28,7 @@ public class Board : MonoBehaviour
                 tile.name = $"Tile({i}, {j})";
                 tiles[i, j] = tile.GetComponent<Tile>();
                 tile.transform.parent = transform;
+                tiles[i, j].Init(i, j, this);
             }
         }
     }
