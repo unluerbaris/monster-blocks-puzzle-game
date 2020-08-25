@@ -9,7 +9,9 @@ public class Board : MonoBehaviour
     [SerializeField] GameObject[] characterPrefabs;
 
     Tile[,] tiles;
-    Character[,] characters; 
+    Character[,] characters;
+    Tile clickedTile;
+    Tile targetTile;
 
     private void Start()
     {
@@ -84,5 +86,36 @@ public class Board : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ClickTile(Tile tile)
+    {
+        if (clickedTile == null)
+        {
+            clickedTile = tile;
+            Debug.Log($"Clicked tile: {tile.name}");
+        }
+    }
+
+    public void DragToTile(Tile tile)
+    {
+        if (clickedTile != null)
+        {
+            targetTile = tile;
+        }
+    }
+
+    public void ReleaseTile()
+    {
+        if (clickedTile != null && targetTile != null)
+        {
+            SwitchTiles(clickedTile, targetTile);
+        }
+    }
+
+    private void SwitchTiles(Tile clickedTile, Tile targetTile)
+    {
+        clickedTile = null;
+        targetTile = null;
     }
 }
