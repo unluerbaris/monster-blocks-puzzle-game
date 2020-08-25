@@ -2,8 +2,8 @@
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] int xIndex;
-    [SerializeField] int yIndex;
+    public int xIndex;
+    public int yIndex;
 
     Board board;
 
@@ -29,7 +29,6 @@ public class Tile : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Debug.Log("Mouse up");
         board.ReleaseTile();
     }
 }

@@ -7,6 +7,7 @@ public class Character : MonoBehaviour
     [SerializeField] int yIndex;
     [SerializeField] InterpolationType interpolation = InterpolationType.SmootherStep;
 
+    Board board;
     bool isMoving = false;
 
     public enum InterpolationType
@@ -20,14 +21,19 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Move((int)transform.position.x + 1, (int)transform.position.y, 0.5f);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Move((int)transform.position.x - 1, (int)transform.position.y, 0.5f);
-        }
+        //if (Input.GetKeyDown(KeyCode.RightArrow))
+        //{
+        //    Move((int)transform.position.x + 1, (int)transform.position.y, 0.5f);
+        //}
+        //if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //{
+        //    Move((int)transform.position.x - 1, (int)transform.position.y, 0.5f);
+        //}
+    }
+
+    public void Init(Board board)
+    {
+        this.board = board;
     }
 
     public void SetCoord(int x, int y)
@@ -58,8 +64,11 @@ public class Character : MonoBehaviour
             if (Vector2.Distance(transform.position, destination) < 0.01f)
             {
                 reachedDestination = true;
-                transform.position = destination;
-                SetCoord((int)destination.x, (int)destination.y);
+
+                if (board != null)
+                {
+                    board.PlaceCharacter(this, (int)destination.x, (int)destination.y);
+                }
                 break;
             }
 
