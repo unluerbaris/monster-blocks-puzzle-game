@@ -457,6 +457,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Board
       objectReference: {fileID: 0}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: characterPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: characterPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 3392479608933706372, guid: 5e0c883991731407db2ba7efdc218c2d, type: 3}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: characterPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1903864730740047055, guid: 83200636eeb0d4b93be2afb852bfeee5, type: 3}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: characterPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 6206997764564300208, guid: b79b6bd6d4a0b4157b42248078862749, type: 3}
     - target: {fileID: 8154351941173163630, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
