@@ -1,13 +1,22 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
     [SerializeField] int xIndex;
     [SerializeField] int yIndex;
+    [SerializeField] InterpolationType interpolation = InterpolationType.SmootherStep;
 
     bool isMoving = false;
+
+    public enum InterpolationType
+    {
+      Linear,
+      EaseOut,
+      EaseIn,
+      SmoothStep,
+      SmootherStep
+    };
 
     private void Update()
     {
@@ -54,8 +63,29 @@ public class Character : MonoBehaviour
                 break;
             }
 
+            // track the total running time
             elapsedTime += Time.deltaTime;
+
+            // calculate the lerp value
             float t = Mathf.Clamp(elapsedTime / timeToMove, 0f, 1f);
+
+            switch(interpolation)
+            {
+                case InterpolationType.Linear:
+                    break;
+                case InterpolationType.EaseOut:
+                    t = Mathf.Sin(t * Mathf.PI * 0.5f);
+                    break;
+                case InterpolationType.EaseIn:
+                    t = 1 - Mathf.Cos(t * Mathf.PI * 0.5f);
+                    break;
+                case InterpolationType.SmoothStep:
+                    t = t * t * (3 - 2 * t);
+                    break;
+                case InterpolationType.SmootherStep:
+                    t = t * t * t * (t * (t * 6 - 15) + 10);
+                    break;
+            }
 
             transform.position = Vector2.Lerp(startPosition, destination, t);
 
