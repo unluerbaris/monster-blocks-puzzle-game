@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Board : MonoBehaviour
 {
@@ -147,5 +148,55 @@ public class Board : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    List<Character> FindMatches(int startX, int startY, Vector2 searchDirection, int minLength = 3)
+    {
+        List<Character> matches = new List<Character>();
+        Character startCharacter = null;
+
+        if (IsWithinBounds(startX, startY))
+        {
+            startCharacter = characters[startX, startY];
+        }
+        if (startCharacter != null)
+        {
+            matches.Add(startCharacter);
+        }
+        else
+        {
+            return null;
+        }
+
+        int nextX;
+        int nextY;
+        int maxValue = (width > height) ? width : height;
+
+        for (int i = 1; i < maxValue - 1; i++)
+        {
+            nextX = startX + (int)Mathf.Clamp(searchDirection.x, -1, 1) * i;
+            nextY = startY + (int)Mathf.Clamp(searchDirection.y, -1, 1) * i;
+
+            if (!IsWithinBounds(nextX, nextY))
+            {
+                break;
+            }
+
+            Character nextCharacter = characters[nextX, nextY];
+
+            if (nextCharacter.matchValue == startCharacter.matchValue && !matches.Contains(nextCharacter))
+            {
+                matches.Add(nextCharacter);
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (matches.Count >= minLength)
+        {
+            return matches;
+        }
+        return null;
     }
 }

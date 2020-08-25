@@ -5,6 +5,7 @@ public class Character : MonoBehaviour
 {
     [SerializeField] int xIndex;
     [SerializeField] int yIndex;
+    public MatchValue matchValue;
     [SerializeField] InterpolationType interpolation = InterpolationType.SmootherStep;
 
     Board board;
@@ -17,6 +18,13 @@ public class Character : MonoBehaviour
       EaseIn,
       SmoothStep,
       SmootherStep
+    };
+
+    public enum MatchValue
+    {
+        Cat,
+        Dog,
+        Sheep
     };
 
     private void Update()
