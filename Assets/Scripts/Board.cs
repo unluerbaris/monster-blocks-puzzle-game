@@ -23,7 +23,7 @@ public class Board : MonoBehaviour
         characters = new Character[width, height];
         SetupTiles();
         SetupCamera();
-        FillRandom();
+        FillBoard();
         // HighlightMatches();
     }
 
@@ -86,22 +86,63 @@ public class Board : MonoBehaviour
         return (x >= 0 && x < width && y >= 0 && y < height);
     }
 
-    private void FillRandom()
+    private void FillBoard()
     {
+        int maxIterations = 100;
+        int iterations = 0;
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                GameObject randomCharacter = Instantiate(GetRandomCharacter(), Vector2.zero, Quaternion.identity) as GameObject;
+                Character character = FillRandomAt(i, j);
+                iterations = 0;
 
-                if (randomCharacter != null)
+                while (HasMatchOnFill(i, j))
                 {
-                    randomCharacter.GetComponent<Character>().Init(this);
-                    PlaceCharacter(randomCharacter.GetComponent<Character>(), i, j);
-                    randomCharacter.transform.parent = transform;
+                    RemoveCharacterAt(i, j);
+                    character = FillRandomAt(i, j);
+
+                    iterations++;
+                    if (iterations >= maxIterations)
+                    {
+                        Debug.Log("Break... Too many iterations!");
+                        break;
+                    }
                 }
             }
         }
+    }
+
+    Character FillRandomAt(int x, int y)
+    {
+        GameObject randomCharacter = Instantiate(GetRandomCharacter(), Vector2.zero, Quaternion.identity) as GameObject;
+
+        if (randomCharacter != null)
+        {
+            randomCharacter.GetComponent<Character>().Init(this);
+            PlaceCharacter(randomCharacter.GetComponent<Character>(), x, y);
+            randomCharacter.transform.parent = transform;
+            return randomCharacter.GetComponent<Character>();
+        }
+        return null;
+    }
+
+    bool HasMatchOnFill(int x, int y, int minLength = 3)
+    {
+        List<Character> leftMatches = FindMatches(x, y, new Vector2(-1, 0), minLength);
+        List<Character> downwardMatches = FindMatches(x, y, new Vector2(0, -1), minLength);
+
+        if (leftMatches == null)
+        {
+            leftMatches = new List<Character>();
+        }
+        if (downwardMatches == null)
+        {
+            downwardMatches = new List<Character>();
+        }
+
+        return (leftMatches.Count > 0 || downwardMatches.Count > 0);
     }
 
     public void ClickTile(Tile tile)
