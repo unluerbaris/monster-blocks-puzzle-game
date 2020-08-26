@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] int xIndex;
-    [SerializeField] int yIndex;
+    public int xIndex;
+    public int yIndex;
     public MatchValue matchValue;
     [SerializeField] InterpolationType interpolation = InterpolationType.SmootherStep;
 
@@ -24,7 +24,11 @@ public class Character : MonoBehaviour
     {
         Cat,
         Dog,
-        Sheep
+        Sheep,
+        DarkCat,
+        ZombieCat,
+        BrownCat,
+        DarkSheep
     };
 
     private void Update()
