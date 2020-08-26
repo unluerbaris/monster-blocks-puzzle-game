@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ public class Board : MonoBehaviour
         SetupTiles();
         SetupCamera();
         FillRandom();
-        HighlightMatches();
+       // HighlightMatches();
     }
 
     private void SetupTiles()
@@ -132,11 +133,33 @@ public class Board : MonoBehaviour
 
     private void SwitchTiles(Tile clickedTile, Tile targetTile)
     {
+        StartCoroutine(SwitchTilesRoutine(clickedTile, targetTile));
+    }
+
+    IEnumerator SwitchTilesRoutine(Tile clickedTile, Tile targetTile)
+    {
         Character clickedCharacter = characters[clickedTile.xIndex, clickedTile.yIndex];
         Character targetCharacter = characters[targetTile.xIndex, targetTile.yIndex];
 
-        clickedCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
-        targetCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+        if (targetCharacter != null && clickedCharacter != null)
+        {
+            clickedCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+            targetCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+
+            yield return new WaitForSeconds(swapTime);
+
+            List<Character> clickedCharacterMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
+            List<Character> targetCharacterMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
+
+            if (targetCharacterMatches.Count == 0 && clickedCharacterMatches.Count == 0)
+            {
+                clickedCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+                targetCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+            }
+
+            HighlightMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
+            HighlightMatchesAt(targetTile.xIndex, targetTile.yIndex);
+        }
     }
 
     bool IsNextTo(Tile start, Tile end)
@@ -244,32 +267,55 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                SpriteRenderer spriteRenderer = tiles[i, j].GetComponent<SpriteRenderer>();
-                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
-
-                List<Character> horizontalMatches = FindHorizontalMatches(i, j, 3);
-                List<Character> verticalMatches = FindVerticalMatches(i, j, 3);
-
-                if (horizontalMatches == null)
-                {
-                    horizontalMatches = new List<Character>();
-                }
-                if (verticalMatches == null)
-                {
-                    verticalMatches = new List<Character>();
-                }
-
-                var combinedMatches = horizontalMatches.Union(verticalMatches).ToList();
-
-                if (combinedMatches.Count > 0)
-                {
-                    foreach (Character character in combinedMatches)
-                    {
-                        spriteRenderer = tiles[character.xIndex, character.yIndex].GetComponent<SpriteRenderer>();
-                        spriteRenderer.color = Color.cyan;
-                    }
-                }
+                HighlightMatchesAt(i, j);
             }
         }
+    }
+
+    private void HighlightMatchesAt(int x, int y)
+    {
+        SpriteRenderer spriteRenderer = HighlightTileOff(x, y);
+
+        List<Character> combinedMatches = FindMatchesAt(x, y);
+
+        if (combinedMatches.Count > 0)
+        {
+            foreach (Character character in combinedMatches)
+            {
+                spriteRenderer = HighlightTileOn(character.xIndex, character.yIndex, Color.cyan);
+            }
+        }
+    }
+
+    private SpriteRenderer HighlightTileOn(int x, int y, Color color)
+    {
+        SpriteRenderer spriteRenderer = tiles[x, y].GetComponent<SpriteRenderer>();
+        spriteRenderer.color = color;
+        return spriteRenderer;
+    }
+
+    private SpriteRenderer HighlightTileOff(int x, int y)
+    {
+        SpriteRenderer spriteRenderer = tiles[x, y].GetComponent<SpriteRenderer>();
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
+        return spriteRenderer;
+    }
+
+    private List<Character> FindMatchesAt(int x, int y, int minLength = 3)
+    {
+        List<Character> horizontalMatches = FindHorizontalMatches(x, y, minLength);
+        List<Character> verticalMatches = FindVerticalMatches(x, y, minLength);
+
+        if (horizontalMatches == null)
+        {
+            horizontalMatches = new List<Character>();
+        }
+        if (verticalMatches == null)
+        {
+            verticalMatches = new List<Character>();
+        }
+
+        var combinedMatches = horizontalMatches.Union(verticalMatches).ToList();
+        return combinedMatches;
     }
 }
