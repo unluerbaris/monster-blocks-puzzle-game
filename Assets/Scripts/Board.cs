@@ -24,7 +24,7 @@ public class Board : MonoBehaviour
         SetupTiles();
         SetupCamera();
         FillRandom();
-       // HighlightMatches();
+        // HighlightMatches();
     }
 
     private void SetupTiles()
@@ -156,9 +156,16 @@ public class Board : MonoBehaviour
                 clickedCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
                 targetCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
             }
+            else
+            {
+                yield return new WaitForSeconds(swapTime);
 
-            HighlightMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
-            HighlightMatchesAt(targetTile.xIndex, targetTile.yIndex);
+                RemoveCharacterAt(clickedCharacterMatches);
+                RemoveCharacterAt(targetCharacterMatches);
+
+                //HighlightMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
+                //HighlightMatchesAt(targetTile.xIndex, targetTile.yIndex);
+            }
         }
     }
 
@@ -209,15 +216,23 @@ public class Board : MonoBehaviour
 
             Character nextCharacter = characters[nextX, nextY];
 
-            if (nextCharacter.matchValue == startCharacter.matchValue && !matches.Contains(nextCharacter))
-            {
-                matches.Add(nextCharacter);
-            }
-            else
+            if (nextCharacter == null)
             {
                 break;
             }
+            else
+            {
+                if (nextCharacter.matchValue == startCharacter.matchValue && !matches.Contains(nextCharacter))
+                {
+                    matches.Add(nextCharacter);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
+
         if (matches.Count >= minLength)
         {
             return matches;
@@ -317,5 +332,36 @@ public class Board : MonoBehaviour
 
         var combinedMatches = horizontalMatches.Union(verticalMatches).ToList();
         return combinedMatches;
+    }
+
+    private void RemoveCharacterAt(int x, int y)
+    {
+        Character characterToRemove = characters[x, y];
+
+        if (characterToRemove != null)
+        {
+            characters[x, y] = null;
+            Destroy(characterToRemove.gameObject);
+        }
+        HighlightTileOff(x, y);
+    }
+
+    private void RemoveCharacterAt(List<Character> characters)
+    {
+        foreach (Character character in characters)
+        {
+            RemoveCharacterAt(character.xIndex, character.yIndex);
+        }
+    }
+
+    private void ClearBoard()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                RemoveCharacterAt(i, j);
+            }
+        }
     }
 }
