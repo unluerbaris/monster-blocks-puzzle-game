@@ -204,8 +204,8 @@ public class Board : MonoBehaviour
                 RemoveCharacterAt(clickedCharacterMatches);
                 RemoveCharacterAt(targetCharacterMatches);
 
-                //HighlightMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
-                //HighlightMatchesAt(targetTile.xIndex, targetTile.yIndex);
+                CollapseColumn(clickedCharacterMatches);
+                CollapseColumn(targetCharacterMatches);
             }
         }
     }
@@ -404,5 +404,61 @@ public class Board : MonoBehaviour
                 RemoveCharacterAt(i, j);
             }
         }
+    }
+
+    List<Character> CollapseColumn(int column, float collapseTime = 0.5f)
+    {
+        List<Character> movingCharacters = new List<Character>();
+
+        for (int i = 0; i < height - 1; i++)
+        {
+            if (characters[column, i] == null)
+            {
+                for (int j = i + 1; j < height; j++)
+                {
+                    if (characters[column, j] != null)
+                    {
+                        characters[column, j].Move(column, i, collapseTime);
+                        characters[column, i] = characters[column, j];
+                        characters[column, i].SetCoord(column, i);
+
+                        if (!movingCharacters.Contains(characters[column, i]))
+                        {
+                            movingCharacters.Add(characters[column, i]);
+                        }
+
+                        characters[column, j] = null;
+                        break;
+                    }
+                }
+            }
+        }
+        return movingCharacters;
+    }
+
+    List<Character> CollapseColumn(List<Character> characters)
+    {
+        List<Character> movingCharacters = new List<Character>();
+        List<int> columnsToCollapse = GetColumns(characters);
+
+        foreach (int column in columnsToCollapse)
+        {
+            movingCharacters = movingCharacters.Union(CollapseColumn(column)).ToList();
+        }
+        return movingCharacters;
+    }
+
+    List<int> GetColumns(List<Character> characters)
+    {
+        List<int> columns = new List<int>();
+
+        foreach (Character character in characters)
+        {
+            if (!columns.Contains(character.xIndex))
+            {
+                columns.Add(character.xIndex);
+            }
+        }
+        return columns;
     }
 }
