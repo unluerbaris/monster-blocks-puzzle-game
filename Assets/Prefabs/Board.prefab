@@ -47,7 +47,8 @@ MonoBehaviour:
   height: 10
   borderSize: 1
   swapTime: 0.5
-  tilePrefab: {fileID: 8536670152527893570, guid: 9566a48fae5f84cd38156c2d9bafbfd7, type: 3}
+  tileNormalPrefab: {fileID: 8536670152527893570, guid: 9566a48fae5f84cd38156c2d9bafbfd7, type: 3}
+  tileObstaclePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
   characterPrefabs:
   - {fileID: 1903864730740047055, guid: c9df2e0794524442abb6e4f5ef85768c, type: 3}
   - {fileID: 1903864730740047055, guid: 83200636eeb0d4b93be2afb852bfeee5, type: 3}
@@ -55,3 +56,16 @@ MonoBehaviour:
   - {fileID: 1903864730740047055, guid: c22ad93e043174f9297a1874b040ddd7, type: 3}
   - {fileID: 6206997764564300208, guid: 7f34106d3e2514d57957cbc881c12f67, type: 3}
   - {fileID: 1903864730740047055, guid: 45645cf6152b04488b6d32f26fc1867d, type: 3}
+  startingTiles:
+  - tilePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
+    x: 3
+    y: 2
+  - tilePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
+    x: 4
+    y: 2
+  - tilePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
+    x: 3
+    y: 3
+  - tilePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
+    x: 4
+    y: 3
