@@ -12,6 +12,8 @@ public class Board : MonoBehaviour
     [SerializeField] GameObject tilePrefab;
     [SerializeField] GameObject[] characterPrefabs;
 
+    bool playerInputEnabled = true;
+
     Tile[,] tiles;
     Character[,] characters;
     Tile clickedTile;
@@ -179,29 +181,32 @@ public class Board : MonoBehaviour
 
     IEnumerator SwitchTilesRoutine(Tile clickedTile, Tile targetTile)
     {
-        Character clickedCharacter = characters[clickedTile.xIndex, clickedTile.yIndex];
-        Character targetCharacter = characters[targetTile.xIndex, targetTile.yIndex];
-
-        if (targetCharacter != null && clickedCharacter != null)
+        if (playerInputEnabled)
         {
-            clickedCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
-            targetCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+            Character clickedCharacter = characters[clickedTile.xIndex, clickedTile.yIndex];
+            Character targetCharacter = characters[targetTile.xIndex, targetTile.yIndex];
 
-            yield return new WaitForSeconds(swapTime);
-
-            List<Character> clickedCharacterMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
-            List<Character> targetCharacterMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
-
-            if (targetCharacterMatches.Count == 0 && clickedCharacterMatches.Count == 0)
+            if (targetCharacter != null && clickedCharacter != null)
             {
-                clickedCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
-                targetCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
-            }
-            else
-            {
+                clickedCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+                targetCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+
                 yield return new WaitForSeconds(swapTime);
 
-                ClearAndRefillBoard(clickedCharacterMatches.Union(targetCharacterMatches).ToList());
+                List<Character> clickedCharacterMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
+                List<Character> targetCharacterMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
+
+                if (targetCharacterMatches.Count == 0 && clickedCharacterMatches.Count == 0)
+                {
+                    clickedCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+                    targetCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+                }
+                else
+                {
+                    yield return new WaitForSeconds(swapTime);
+
+                    ClearAndRefillBoard(clickedCharacterMatches.Union(targetCharacterMatches).ToList());
+                }
             }
         }
     }
@@ -416,7 +421,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    List<Character> CollapseColumn(int column, float collapseTime = 0.5f)
+    List<Character> CollapseColumn(int column, float collapseTime = 0.2f)
     {
         List<Character> movingCharacters = new List<Character>();
 
@@ -428,7 +433,7 @@ public class Board : MonoBehaviour
                 {
                     if (characters[column, j] != null)
                     {
-                        characters[column, j].Move(column, i, collapseTime);
+                        characters[column, j].Move(column, i, collapseTime * (j - i));
                         characters[column, i] = characters[column, j];
                         characters[column, i].SetCoord(column, i);
 
@@ -479,8 +484,12 @@ public class Board : MonoBehaviour
 
     IEnumerator ClearAndRefillBoardRoutine(List<Character> characters)
     {
-        StartCoroutine(ClearAndCollapseRoutine(characters));
+        playerInputEnabled = false;
+
+        yield return StartCoroutine(ClearAndCollapseRoutine(characters));
         yield return null;
+
+        playerInputEnabled = true;
     }
 
     IEnumerator ClearAndCollapseRoutine(List<Character> characters)
@@ -495,9 +504,16 @@ public class Board : MonoBehaviour
         while (!isFinished)
         {
             RemoveCharacterAt(characters);
+
             yield return new WaitForSeconds(0.25f);
             movingCharacters = CollapseColumn(characters);
-            yield return new WaitForSeconds(0.25f);
+
+            while (!IsCollapsed(movingCharacters))
+            {
+                yield return null;
+            }
+
+            //yield return new WaitForSeconds(0.5f);
             matches = FindMatchesAt(movingCharacters);
 
             if (matches.Count == 0)
@@ -511,5 +527,20 @@ public class Board : MonoBehaviour
             }
         }
         yield return null;
+    }
+
+    private bool IsCollapsed(List<Character> characters)
+    {
+        foreach (Character character in characters)
+        {
+            if (character != null)
+            {
+                if (character.transform.position.y - (float)character.yIndex > 0.001f)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
