@@ -22,6 +22,11 @@ public class Character : MonoBehaviour
 
     public enum MatchValue
     {
+        RedBlock,
+        YellowBlock,
+        BlueBlock,
+        PurpleBlock,
+        GreenBlock,
         Cat,
         Dog,
         Sheep,
