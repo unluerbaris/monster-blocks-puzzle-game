@@ -25,7 +25,7 @@ public class Board : MonoBehaviour
         characters = new Character[width, height];
         SetupTiles();
         SetupCamera();
-        FillBoard();
+        FillBoard(10, 0.5f);
         // HighlightMatches();
     }
 
@@ -292,6 +292,21 @@ public class Board : MonoBehaviour
         return null;
     }
 
+    List<Character> FindAllMatches()
+    {
+        List<Character> combinedMatches = new List<Character>();
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                List<Character> matches = FindMatchesAt(i, j);
+                combinedMatches = combinedMatches.Union(matches).ToList();
+            }
+        }
+        return combinedMatches;
+    }
+
     List<Character> FindVerticalMatches(int startX, int startY, int minLength = 3)
     {
         List<Character> upwardMatches = FindMatches(startX, startY, new Vector2(0, 1), 2);
@@ -495,11 +510,20 @@ public class Board : MonoBehaviour
     IEnumerator ClearAndRefillBoardRoutine(List<Character> characters)
     {
         playerInputEnabled = false;
+        List<Character> matches = characters;
 
-        yield return StartCoroutine(ClearAndCollapseRoutine(characters));
-        yield return null;
+        do
+        {
+            yield return StartCoroutine(ClearAndCollapseRoutine(matches));
+            yield return null;
 
-        yield return StartCoroutine(RefillRoutine());
+            yield return StartCoroutine(RefillRoutine());
+            matches = FindAllMatches();
+
+            yield return new WaitForSeconds(0.5f);
+        }
+        while (matches.Count != 0);
+
         playerInputEnabled = true;
     }
 
