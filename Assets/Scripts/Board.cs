@@ -88,7 +88,7 @@ public class Board : MonoBehaviour
         return (x >= 0 && x < width && y >= 0 && y < height);
     }
 
-    private void FillBoard()
+    private void FillBoard(int falseYOffset = 0, float moveTime = 0.1f)
     {
         int maxIterations = 100;
         int iterations = 0;
@@ -99,13 +99,13 @@ public class Board : MonoBehaviour
             {
                 if (characters[i, j] == null)
                 {
-                    Character character = FillRandomAt(i, j);
+                    Character character = FillRandomAt(i, j, falseYOffset, moveTime);
                     iterations = 0;
 
                     while (HasMatchOnFill(i, j))
                     {
                         RemoveCharacterAt(i, j);
-                        character = FillRandomAt(i, j);
+                        character = FillRandomAt(i, j, falseYOffset, moveTime);
 
                         iterations++;
                         if (iterations >= maxIterations)
@@ -119,7 +119,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    Character FillRandomAt(int x, int y)
+    Character FillRandomAt(int x, int y, int falseYOffset = 0, float moveTime = 0.1f)
     {
         GameObject randomCharacter = Instantiate(GetRandomCharacter(), Vector2.zero, Quaternion.identity) as GameObject;
 
@@ -127,6 +127,13 @@ public class Board : MonoBehaviour
         {
             randomCharacter.GetComponent<Character>().Init(this);
             PlaceCharacter(randomCharacter.GetComponent<Character>(), x, y);
+
+            if (falseYOffset != 0)
+            {
+                randomCharacter.transform.position = new Vector3(x, y + falseYOffset, 0);
+                randomCharacter.GetComponent<Character>().Move(x, y, moveTime);
+            }
+
             randomCharacter.transform.parent = transform;
             return randomCharacter.GetComponent<Character>();
         }
@@ -498,7 +505,7 @@ public class Board : MonoBehaviour
 
     IEnumerator RefillRoutine()
     {
-        FillBoard();
+        FillBoard(10, 0.5f);
         yield return null;
     }
 
@@ -523,7 +530,7 @@ public class Board : MonoBehaviour
                 yield return null;
             }
 
-            //yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
             matches = FindMatchesAt(movingCharacters);
 
             if (matches.Count == 0)
