@@ -201,11 +201,7 @@ public class Board : MonoBehaviour
             {
                 yield return new WaitForSeconds(swapTime);
 
-                RemoveCharacterAt(clickedCharacterMatches);
-                RemoveCharacterAt(targetCharacterMatches);
-
-                CollapseColumn(clickedCharacterMatches);
-                CollapseColumn(targetCharacterMatches);
+                ClearAndRefillBoard(clickedCharacterMatches.Union(targetCharacterMatches).ToList());
             }
         }
     }
@@ -375,6 +371,17 @@ public class Board : MonoBehaviour
         return combinedMatches;
     }
 
+    private List<Character> FindMatchesAt(List<Character> characters, int minLength = 3)
+    {
+        List<Character> matches = new List<Character>();
+
+        foreach (Character character in characters)
+        {
+            matches = matches.Union(FindMatchesAt(character.xIndex, character.yIndex, minLength)).ToList();
+        }
+        return matches;
+    }
+
     private void RemoveCharacterAt(int x, int y)
     {
         Character characterToRemove = characters[x, y];
@@ -391,7 +398,10 @@ public class Board : MonoBehaviour
     {
         foreach (Character character in characters)
         {
-            RemoveCharacterAt(character.xIndex, character.yIndex);
+            if (character != null)
+            {
+                RemoveCharacterAt(character.xIndex, character.yIndex);
+            }
         }
     }
 
@@ -460,5 +470,46 @@ public class Board : MonoBehaviour
             }
         }
         return columns;
+    }
+
+    private void ClearAndRefillBoard(List<Character> characters)
+    {
+        StartCoroutine(ClearAndRefillBoardRoutine(characters));
+    }
+
+    IEnumerator ClearAndRefillBoardRoutine(List<Character> characters)
+    {
+        StartCoroutine(ClearAndCollapseRoutine(characters));
+        yield return null;
+    }
+
+    IEnumerator ClearAndCollapseRoutine(List<Character> characters)
+    {
+        List<Character> movingCharacters = new List<Character>();
+        List<Character> matches = new List<Character>();
+
+        yield return new WaitForSeconds(0.25f);
+
+        bool isFinished = false;
+
+        while (!isFinished)
+        {
+            RemoveCharacterAt(characters);
+            yield return new WaitForSeconds(0.25f);
+            movingCharacters = CollapseColumn(characters);
+            yield return new WaitForSeconds(0.25f);
+            matches = FindMatchesAt(movingCharacters);
+
+            if (matches.Count == 0)
+            {
+                isFinished = true;
+                break;
+            }
+            else
+            {
+                yield return StartCoroutine(ClearAndCollapseRoutine(matches));
+            }
+        }
+        yield return null;
     }
 }
