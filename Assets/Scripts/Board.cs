@@ -97,19 +97,22 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                Character character = FillRandomAt(i, j);
-                iterations = 0;
-
-                while (HasMatchOnFill(i, j))
+                if (characters[i, j] == null)
                 {
-                    RemoveCharacterAt(i, j);
-                    character = FillRandomAt(i, j);
+                    Character character = FillRandomAt(i, j);
+                    iterations = 0;
 
-                    iterations++;
-                    if (iterations >= maxIterations)
+                    while (HasMatchOnFill(i, j))
                     {
-                        Debug.Log("Break... Too many iterations!");
-                        break;
+                        RemoveCharacterAt(i, j);
+                        character = FillRandomAt(i, j);
+
+                        iterations++;
+                        if (iterations >= maxIterations)
+                        {
+                            Debug.Log("Break... Too many iterations!");
+                            break;
+                        }
                     }
                 }
             }
@@ -489,7 +492,14 @@ public class Board : MonoBehaviour
         yield return StartCoroutine(ClearAndCollapseRoutine(characters));
         yield return null;
 
+        yield return StartCoroutine(RefillRoutine());
         playerInputEnabled = true;
+    }
+
+    IEnumerator RefillRoutine()
+    {
+        FillBoard();
+        yield return null;
     }
 
     IEnumerator ClearAndCollapseRoutine(List<Character> characters)
