@@ -408,9 +408,13 @@ public class Board : MonoBehaviour
 
     private SpriteRenderer HighlightTileOff(int x, int y)
     {
-        SpriteRenderer spriteRenderer = tiles[x, y].GetComponent<SpriteRenderer>();
-        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
-        return spriteRenderer;
+        if (tiles[x,y].tileType != TileType.Breakable)
+        {
+            SpriteRenderer spriteRenderer = tiles[x, y].GetComponent<SpriteRenderer>();
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
+            return spriteRenderer;
+        }
+        return null;
     }
 
     private List<Character> FindMatchesAt(int x, int y, int minLength = 3)
@@ -461,6 +465,27 @@ public class Board : MonoBehaviour
             if (character != null)
             {
                 RemoveCharacterAt(character.xIndex, character.yIndex);
+            }
+        }
+    }
+
+    private void BreakTileAt(int x, int y)
+    {
+        Tile tileToBreak = tiles[x, y];
+
+        if (tileToBreak != null)
+        {
+            tileToBreak.BreakTile();
+        }
+    }
+
+    private void BreakTileAt(List<Character> characters)
+    {
+        foreach (Character character in characters)
+        {
+            if (character != null)
+            {
+                BreakTileAt(character.xIndex, character.yIndex);
             }
         }
     }
@@ -575,6 +600,7 @@ public class Board : MonoBehaviour
         while (!isFinished)
         {
             RemoveCharacterAt(characters);
+            BreakTileAt(characters);
 
             yield return new WaitForSeconds(0.25f);
             movingCharacters = CollapseColumn(characters);
