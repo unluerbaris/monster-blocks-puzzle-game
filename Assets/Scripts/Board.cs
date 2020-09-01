@@ -624,6 +624,9 @@ public class Board : MonoBehaviour
 
         while (!isFinished)
         {
+            List<Block> bombedBlocks = GetBombedBlocks(blocks);
+            blocks = blocks.Union(bombedBlocks).ToList();
+
             RemoveBlockAt(blocks);
             BreakTileAt(blocks);
 
@@ -709,5 +712,42 @@ public class Board : MonoBehaviour
             }
         }
         return blocks;
+    }
+
+    List<Block> GetBombedBlocks(List<Block> blocks)
+    {
+        List<Block> allBlocksToClear = new List<Block>();
+
+        foreach (Block block in blocks)
+        {
+            if (block != null)
+            {
+                List<Block> blocksToClear = new List<Block>();
+                Bomb bomb = block.GetComponent<Bomb>();
+
+                if (bomb != null)
+                {
+                    switch (bomb.bombType)
+                    {
+                        case BombType.Column:
+                            blocksToClear = GetColumnBlocks(bomb.xIndex);
+                            break;
+                        case BombType.Row:
+                            blocksToClear = GetRowBlocks(bomb.yIndex);
+                            break;
+                        case BombType.Adjacent:
+                            blocksToClear = GetAdjacentBlocks(bomb.xIndex, bomb.yIndex, 1);
+                            break;
+                        case BombType.Color:
+                            break;
+                        default:
+                            break;
+                    }
+
+                    allBlocksToClear = allBlocksToClear.Union(blocksToClear).ToList();
+                }
+            }
+        }
+        return allBlocksToClear;
     }
 }
