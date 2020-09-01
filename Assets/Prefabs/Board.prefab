@@ -49,10 +49,13 @@ MonoBehaviour:
   swapTime: 0.5
   tileNormalPrefab: {fileID: 8536670152527893570, guid: 9566a48fae5f84cd38156c2d9bafbfd7, type: 3}
   tileObstaclePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
-  characterPrefabs:
+  blockPrefabs:
   - {fileID: 684649708644565901, guid: 5443add6eeefd4bf0a4f1fd46d373194, type: 3}
   - {fileID: 286612046914281099, guid: 8f215c46f3f10414db6d295a0317819b, type: 3}
   - {fileID: 2121214874807966623, guid: ee95b448f8ada40a69e21f3e3c3bcf13, type: 3}
   - {fileID: 4086790946773749661, guid: b274abaaa0e0c468abb64468c13c44b6, type: 3}
   - {fileID: 8732561252395465424, guid: 62045da47098d4b11b024a55f0f9a30f, type: 3}
+  fillYOffset: 10
+  fillMoveTime: 0.5
   startingTiles: []
+  startingGameBlocks: []

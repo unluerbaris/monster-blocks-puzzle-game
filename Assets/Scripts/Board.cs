@@ -11,17 +11,17 @@ public class Board : MonoBehaviour
     [SerializeField] float swapTime = 0.5f;
     [SerializeField] GameObject tileNormalPrefab;
     [SerializeField] GameObject tileObstaclePrefab;
-    [SerializeField] GameObject[] characterPrefabs;
+    [SerializeField] GameObject[] blockPrefabs;
     [SerializeField] int fillYOffset = 10;
     [SerializeField] float fillMoveTime = 0.5f;
 
     bool playerInputEnabled = true;
 
     [SerializeField] StartingObject[] startingTiles;
-    [SerializeField] StartingObject[] startingGameCharacters;
+    [SerializeField] StartingObject[] startingGameBlocks;
 
     Tile[,] tiles;
-    Character[,] characters;
+    Block[,] blocks;
     Tile clickedTile;
     Tile targetTile;
 
@@ -36,9 +36,9 @@ public class Board : MonoBehaviour
     private void Start()
     {
         tiles = new Tile[width, height];
-        characters = new Character[width, height];
+        blocks = new Block[width, height];
         SetupTiles();
-        SetupGameCharacters();
+        SetupGameBlocks();
         SetupCamera();
         FillBoard(fillYOffset, fillMoveTime);
         // HighlightMatches();
@@ -78,33 +78,33 @@ public class Board : MonoBehaviour
         }
     }
 
-    private Character MakeGameCharacter(GameObject prefab, int x, int y, int falseYOffset, float moveTime)
+    private Block MakeGameBlock(GameObject prefab, int x, int y, int falseYOffset, float moveTime)
     {
         if (prefab != null && IsWithinBounds(x, y))
         {
-            prefab.GetComponent<Character>().Init(this);
-            PlaceCharacter(prefab.GetComponent<Character>(), x, y);
+            prefab.GetComponent<Block>().Init(this);
+            PlaceBlock(prefab.GetComponent<Block>(), x, y);
 
             if (falseYOffset != 0)
             {
                 prefab.transform.position = new Vector3(x, y + falseYOffset, 0);
-                prefab.GetComponent<Character>().Move(x, y, moveTime);
+                prefab.GetComponent<Block>().Move(x, y, moveTime);
             }
 
             prefab.transform.parent = transform;
-            return prefab.GetComponent<Character>();
+            return prefab.GetComponent<Block>();
         }
         return null;
     }
 
-    private void SetupGameCharacters()
+    private void SetupGameBlocks()
     {
-        foreach (StartingObject startingObject in startingGameCharacters)
+        foreach (StartingObject startingObject in startingGameBlocks)
         {
             if (startingObject != null)
             {
                 GameObject piece = Instantiate(startingObject.prefab, new Vector2(startingObject.x, startingObject.y), Quaternion.identity) as GameObject;
-                MakeGameCharacter(piece, startingObject.x, startingObject.y, fillYOffset, fillMoveTime);
+                MakeGameBlock(piece, startingObject.x, startingObject.y, fillYOffset, fillMoveTime);
             }
         }
     }
@@ -120,32 +120,32 @@ public class Board : MonoBehaviour
         Camera.main.orthographicSize = (verticalSize > horizontalSize) ? verticalSize : horizontalSize;
     }
 
-    private GameObject GetRandomCharacter()
+    private GameObject GetRandomBlock()
     {
-        int randomIndex = Random.Range(0, characterPrefabs.Length);
+        int randomIndex = Random.Range(0, blockPrefabs.Length);
 
-        if (characterPrefabs[randomIndex] == null)
+        if (blockPrefabs[randomIndex] == null)
         {
             Debug.LogWarning($"Index {randomIndex} does not contain a valid prefab!");
         }
-        return characterPrefabs[randomIndex];
+        return blockPrefabs[randomIndex];
     }
 
-    public void PlaceCharacter(Character character, int x, int y)
+    public void PlaceBlock(Block block, int x, int y)
     {
-        if (character == null)
+        if (block == null)
         {
-            Debug.LogWarning("Invalid character!");
+            Debug.LogWarning("Invalid block!");
             return;
         }
 
-        character.transform.position = new Vector2(x, y);
-        character.transform.rotation = Quaternion.identity;
+        block.transform.position = new Vector2(x, y);
+        block.transform.rotation = Quaternion.identity;
         if (IsWithinBounds(x, y))
         {
-            characters[x, y] = character;
+            blocks[x, y] = block;
         }
-        character.SetCoord(x, y);
+        block.SetCoord(x, y);
     }
 
     bool IsWithinBounds(int x, int y)
@@ -162,14 +162,14 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                if (characters[i, j] == null && tiles[i, j].tileType != TileType.Obstacle)
+                if (blocks[i, j] == null && tiles[i, j].tileType != TileType.Obstacle)
                 {
-                    Character character = FillRandomAt(i, j, falseYOffset, moveTime);
+                    Block character = FillRandomAt(i, j, falseYOffset, moveTime);
                     iterations = 0;
 
                     while (HasMatchOnFill(i, j))
                     {
-                        RemoveCharacterAt(i, j);
+                        RemoveBlockAt(i, j);
                         character = FillRandomAt(i, j, falseYOffset, moveTime);
 
                         iterations++;
@@ -184,29 +184,29 @@ public class Board : MonoBehaviour
         }
     }
 
-    Character FillRandomAt(int x, int y, int falseYOffset = 0, float moveTime = 0.1f)
+    Block FillRandomAt(int x, int y, int falseYOffset = 0, float moveTime = 0.1f)
     {
         if (IsWithinBounds(x, y))
         {
-            GameObject randomCharacter = Instantiate(GetRandomCharacter(), Vector2.zero, Quaternion.identity) as GameObject;
+            GameObject randomBlock = Instantiate(GetRandomBlock(), Vector2.zero, Quaternion.identity) as GameObject;
 
-            return MakeGameCharacter(randomCharacter, x, y, falseYOffset, moveTime);        
+            return MakeGameBlock(randomBlock, x, y, falseYOffset, moveTime);        
         }
         return null;
     }
 
     bool HasMatchOnFill(int x, int y, int minLength = 3)
     {
-        List<Character> leftMatches = FindMatches(x, y, new Vector2(-1, 0), minLength);
-        List<Character> downwardMatches = FindMatches(x, y, new Vector2(0, -1), minLength);
+        List<Block> leftMatches = FindMatches(x, y, new Vector2(-1, 0), minLength);
+        List<Block> downwardMatches = FindMatches(x, y, new Vector2(0, -1), minLength);
 
         if (leftMatches == null)
         {
-            leftMatches = new List<Character>();
+            leftMatches = new List<Block>();
         }
         if (downwardMatches == null)
         {
-            downwardMatches = new List<Character>();
+            downwardMatches = new List<Block>();
         }
 
         return (leftMatches.Count > 0 || downwardMatches.Count > 0);
@@ -248,29 +248,29 @@ public class Board : MonoBehaviour
     {
         if (playerInputEnabled)
         {
-            Character clickedCharacter = characters[clickedTile.xIndex, clickedTile.yIndex];
-            Character targetCharacter = characters[targetTile.xIndex, targetTile.yIndex];
+            Block clickedBlock = blocks[clickedTile.xIndex, clickedTile.yIndex];
+            Block targetBlock = blocks[targetTile.xIndex, targetTile.yIndex];
 
-            if (targetCharacter != null && clickedCharacter != null)
+            if (targetBlock != null && clickedBlock != null)
             {
-                clickedCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
-                targetCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+                clickedBlock.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+                targetBlock.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
 
                 yield return new WaitForSeconds(swapTime);
 
-                List<Character> clickedCharacterMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
-                List<Character> targetCharacterMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
+                List<Block> clickedBlockMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
+                List<Block> targetBlockMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
 
-                if (targetCharacterMatches.Count == 0 && clickedCharacterMatches.Count == 0)
+                if (targetBlockMatches.Count == 0 && clickedBlockMatches.Count == 0)
                 {
-                    clickedCharacter.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
-                    targetCharacter.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+                    clickedBlock.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+                    targetBlock.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
                 }
                 else
                 {
                     yield return new WaitForSeconds(swapTime);
 
-                    ClearAndRefillBoard(clickedCharacterMatches.Union(targetCharacterMatches).ToList());
+                    ClearAndRefillBoard(clickedBlockMatches.Union(targetBlockMatches).ToList());
                 }
             }
         }
@@ -289,18 +289,18 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    List<Character> FindMatches(int startX, int startY, Vector2 searchDirection, int minLength = 3)
+    List<Block> FindMatches(int startX, int startY, Vector2 searchDirection, int minLength = 3)
     {
-        List<Character> matches = new List<Character>();
-        Character startCharacter = null;
+        List<Block> matches = new List<Block>();
+        Block startBlock = null;
 
         if (IsWithinBounds(startX, startY))
         {
-            startCharacter = characters[startX, startY];
+            startBlock = blocks[startX, startY];
         }
-        if (startCharacter != null)
+        if (startBlock != null)
         {
-            matches.Add(startCharacter);
+            matches.Add(startBlock);
         }
         else
         {
@@ -321,17 +321,17 @@ public class Board : MonoBehaviour
                 break;
             }
 
-            Character nextCharacter = characters[nextX, nextY];
+            Block nextBlock = blocks[nextX, nextY];
 
-            if (nextCharacter == null)
+            if (nextBlock == null)
             {
                 break;
             }
             else
             {
-                if (nextCharacter.matchValue == startCharacter.matchValue && !matches.Contains(nextCharacter))
+                if (nextBlock.matchValue == startBlock.matchValue && !matches.Contains(nextBlock))
                 {
-                    matches.Add(nextCharacter);
+                    matches.Add(nextBlock);
                 }
                 else
                 {
@@ -347,51 +347,51 @@ public class Board : MonoBehaviour
         return null;
     }
 
-    List<Character> FindAllMatches()
+    List<Block> FindAllMatches()
     {
-        List<Character> combinedMatches = new List<Character>();
+        List<Block> combinedMatches = new List<Block>();
 
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                List<Character> matches = FindMatchesAt(i, j);
+                List<Block> matches = FindMatchesAt(i, j);
                 combinedMatches = combinedMatches.Union(matches).ToList();
             }
         }
         return combinedMatches;
     }
 
-    List<Character> FindVerticalMatches(int startX, int startY, int minLength = 3)
+    List<Block> FindVerticalMatches(int startX, int startY, int minLength = 3)
     {
-        List<Character> upwardMatches = FindMatches(startX, startY, new Vector2(0, 1), 2);
-        List<Character> downwardMatches = FindMatches(startX, startY, new Vector2(0, -1), 2);
+        List<Block> upwardMatches = FindMatches(startX, startY, new Vector2(0, 1), 2);
+        List<Block> downwardMatches = FindMatches(startX, startY, new Vector2(0, -1), 2);
 
         if (upwardMatches == null)
         {
-            upwardMatches = new List<Character>();
+            upwardMatches = new List<Block>();
         }
         if (downwardMatches == null)
         {
-            downwardMatches = new List<Character>();
+            downwardMatches = new List<Block>();
         }
 
         var combinedMatches = upwardMatches.Union(downwardMatches).ToList();
         return (combinedMatches.Count >= minLength) ? combinedMatches : null;
     }
 
-    List<Character> FindHorizontalMatches(int startX, int startY, int minLength = 3)
+    List<Block> FindHorizontalMatches(int startX, int startY, int minLength = 3)
     {
-        List<Character> rightMatches = FindMatches(startX, startY, new Vector2(1, 0), 2);
-        List<Character> leftMatches = FindMatches(startX, startY, new Vector2(-1, 0), 2);
+        List<Block> rightMatches = FindMatches(startX, startY, new Vector2(1, 0), 2);
+        List<Block> leftMatches = FindMatches(startX, startY, new Vector2(-1, 0), 2);
 
         if (rightMatches == null)
         {
-            rightMatches = new List<Character>();
+            rightMatches = new List<Block>();
         }
         if (leftMatches == null)
         {
-            leftMatches = new List<Character>();
+            leftMatches = new List<Block>();
         }
 
         var combinedMatches = rightMatches.Union(leftMatches).ToList();
@@ -413,13 +413,13 @@ public class Board : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = HighlightTileOff(x, y);
 
-        List<Character> combinedMatches = FindMatchesAt(x, y);
+        List<Block> combinedMatches = FindMatchesAt(x, y);
 
         if (combinedMatches.Count > 0)
         {
-            foreach (Character character in combinedMatches)
+            foreach (Block block in combinedMatches)
             {
-                spriteRenderer = HighlightTileOn(character.xIndex, character.yIndex, Color.cyan);
+                spriteRenderer = HighlightTileOn(block.xIndex, block.yIndex, Color.cyan);
             }
         }
     }
@@ -442,54 +442,54 @@ public class Board : MonoBehaviour
         return null;
     }
 
-    private List<Character> FindMatchesAt(int x, int y, int minLength = 3)
+    private List<Block> FindMatchesAt(int x, int y, int minLength = 3)
     {
-        List<Character> horizontalMatches = FindHorizontalMatches(x, y, minLength);
-        List<Character> verticalMatches = FindVerticalMatches(x, y, minLength);
+        List<Block> horizontalMatches = FindHorizontalMatches(x, y, minLength);
+        List<Block> verticalMatches = FindVerticalMatches(x, y, minLength);
 
         if (horizontalMatches == null)
         {
-            horizontalMatches = new List<Character>();
+            horizontalMatches = new List<Block>();
         }
         if (verticalMatches == null)
         {
-            verticalMatches = new List<Character>();
+            verticalMatches = new List<Block>();
         }
 
         var combinedMatches = horizontalMatches.Union(verticalMatches).ToList();
         return combinedMatches;
     }
 
-    private List<Character> FindMatchesAt(List<Character> characters, int minLength = 3)
+    private List<Block> FindMatchesAt(List<Block> blocks, int minLength = 3)
     {
-        List<Character> matches = new List<Character>();
+        List<Block> matches = new List<Block>();
 
-        foreach (Character character in characters)
+        foreach (Block block in blocks)
         {
-            matches = matches.Union(FindMatchesAt(character.xIndex, character.yIndex, minLength)).ToList();
+            matches = matches.Union(FindMatchesAt(block.xIndex, block.yIndex, minLength)).ToList();
         }
         return matches;
     }
 
-    private void RemoveCharacterAt(int x, int y)
+    private void RemoveBlockAt(int x, int y)
     {
-        Character characterToRemove = characters[x, y];
+        Block blockToRemove = blocks[x, y];
 
-        if (characterToRemove != null)
+        if (blockToRemove != null)
         {
-            characters[x, y] = null;
-            Destroy(characterToRemove.gameObject);
+            blocks[x, y] = null;
+            Destroy(blockToRemove.gameObject);
         }
         HighlightTileOff(x, y);
     }
 
-    private void RemoveCharacterAt(List<Character> characters)
+    private void RemoveBlockAt(List<Block> blocks)
     {
-        foreach (Character character in characters)
+        foreach (Block block in blocks)
         {
-            if (character != null)
+            if (block != null)
             {
-                RemoveCharacterAt(character.xIndex, character.yIndex);
+                RemoveBlockAt(block.xIndex, block.yIndex);
             }
         }
     }
@@ -504,13 +504,13 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void BreakTileAt(List<Character> characters)
+    private void BreakTileAt(List<Block> blocks)
     {
-        foreach (Character character in characters)
+        foreach (Block block in blocks)
         {
-            if (character != null)
+            if (block != null)
             {
-                BreakTileAt(character.xIndex, character.yIndex);
+                BreakTileAt(block.xIndex, block.yIndex);
             }
         }
     }
@@ -521,76 +521,76 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                RemoveCharacterAt(i, j);
+                RemoveBlockAt(i, j);
             }
         }
     }
 
-    List<Character> CollapseColumn(int column, float collapseTime = 0.2f)
+    List<Block> CollapseColumn(int column, float collapseTime = 0.2f)
     {
-        List<Character> movingCharacters = new List<Character>();
+        List<Block> movingBlocks = new List<Block>();
 
         for (int i = 0; i < height - 1; i++)
         {
-            if (characters[column, i] == null && tiles[column, i].tileType != TileType.Obstacle)
+            if (blocks[column, i] == null && tiles[column, i].tileType != TileType.Obstacle)
             {
                 for (int j = i + 1; j < height; j++)
                 {
-                    if (characters[column, j] != null)
+                    if (blocks[column, j] != null)
                     {
-                        characters[column, j].Move(column, i, collapseTime * (j - i));
-                        characters[column, i] = characters[column, j];
-                        characters[column, i].SetCoord(column, i);
+                        blocks[column, j].Move(column, i, collapseTime * (j - i));
+                        blocks[column, i] = blocks[column, j];
+                        blocks[column, i].SetCoord(column, i);
 
-                        if (!movingCharacters.Contains(characters[column, i]))
+                        if (!movingBlocks.Contains(blocks[column, i]))
                         {
-                            movingCharacters.Add(characters[column, i]);
+                            movingBlocks.Add(blocks[column, i]);
                         }
 
-                        characters[column, j] = null;
+                        blocks[column, j] = null;
                         break;
                     }
                 }
             }
         }
-        return movingCharacters;
+        return movingBlocks;
     }
 
-    List<Character> CollapseColumn(List<Character> characters)
+    List<Block> CollapseColumn(List<Block> blocks)
     {
-        List<Character> movingCharacters = new List<Character>();
-        List<int> columnsToCollapse = GetColumns(characters);
+        List<Block> movingBlocks = new List<Block>();
+        List<int> columnsToCollapse = GetColumns(blocks);
 
         foreach (int column in columnsToCollapse)
         {
-            movingCharacters = movingCharacters.Union(CollapseColumn(column)).ToList();
+            movingBlocks = movingBlocks.Union(CollapseColumn(column)).ToList();
         }
-        return movingCharacters;
+        return movingBlocks;
     }
 
-    List<int> GetColumns(List<Character> characters)
+    List<int> GetColumns(List<Block> blocks)
     {
         List<int> columns = new List<int>();
 
-        foreach (Character character in characters)
+        foreach (Block block in blocks)
         {
-            if (!columns.Contains(character.xIndex))
+            if (!columns.Contains(block.xIndex))
             {
-                columns.Add(character.xIndex);
+                columns.Add(block.xIndex);
             }
         }
         return columns;
     }
 
-    private void ClearAndRefillBoard(List<Character> characters)
+    private void ClearAndRefillBoard(List<Block> blocks)
     {
-        StartCoroutine(ClearAndRefillBoardRoutine(characters));
+        StartCoroutine(ClearAndRefillBoardRoutine(blocks));
     }
 
-    IEnumerator ClearAndRefillBoardRoutine(List<Character> characters)
+    IEnumerator ClearAndRefillBoardRoutine(List<Block> blocks)
     {
         playerInputEnabled = false;
-        List<Character> matches = characters;
+        List<Block> matches = blocks;
 
         do
         {
@@ -613,10 +613,10 @@ public class Board : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator ClearAndCollapseRoutine(List<Character> characters)
+    IEnumerator ClearAndCollapseRoutine(List<Block> blocks)
     {
-        List<Character> movingCharacters = new List<Character>();
-        List<Character> matches = new List<Character>();
+        List<Block> movingBlocks = new List<Block>();
+        List<Block> matches = new List<Block>();
 
         yield return new WaitForSeconds(0.25f);
 
@@ -624,19 +624,19 @@ public class Board : MonoBehaviour
 
         while (!isFinished)
         {
-            RemoveCharacterAt(characters);
-            BreakTileAt(characters);
+            RemoveBlockAt(blocks);
+            BreakTileAt(blocks);
 
             yield return new WaitForSeconds(0.25f);
-            movingCharacters = CollapseColumn(characters);
+            movingBlocks = CollapseColumn(blocks);
 
-            while (!IsCollapsed(movingCharacters))
+            while (!IsCollapsed(movingBlocks))
             {
                 yield return null;
             }
 
             yield return new WaitForSeconds(0.25f);
-            matches = FindMatchesAt(movingCharacters);
+            matches = FindMatchesAt(movingBlocks);
 
             if (matches.Count == 0)
             {
@@ -651,13 +651,13 @@ public class Board : MonoBehaviour
         yield return null;
     }
 
-    private bool IsCollapsed(List<Character> characters)
+    private bool IsCollapsed(List<Block> blocks)
     {
-        foreach (Character character in characters)
+        foreach (Block block in blocks)
         {
-            if (character != null)
+            if (block != null)
             {
-                if (character.transform.position.y - (float)character.yIndex > 0.001f)
+                if (block.transform.position.y - (float)block.yIndex > 0.001f)
                 {
                     return false;
                 }
@@ -666,37 +666,37 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    List<Character> GetRowPieces(int row)
+    List<Block> GetRowBlocks(int row)
     {
-        List<Character> gamePieces = new List<Character>();
+        List<Block> blocks = new List<Block>();
 
         for (int i = 0; i < width; i++)
         {
-            if (characters[i, row] != null)
+            if (this.blocks[i, row] != null)
             {
-                gamePieces.Add(characters[i, row]);
+                blocks.Add(this.blocks[i, row]);
             }
         }
-        return gamePieces;
+        return blocks;
     }
 
-    List<Character> GetColumnPieces(int column)
+    List<Block> GetColumnBlocks(int column)
     {
-        List<Character> gamePieces = new List<Character>();
+        List<Block> blocks = new List<Block>();
 
         for (int i = 0; i < height; i++)
         {
-            if (characters[column, i] != null)
+            if (this.blocks[column, i] != null)
             {
-                gamePieces.Add(characters[column, i]);
+                blocks.Add(this.blocks[column, i]);
             }
         }
-        return gamePieces;
+        return blocks;
     }
 
-    List<Character> GetAdjacentPieces(int x, int y, int offset = 1)
+    List<Block> GetAdjacentBlocks(int x, int y, int offset = 1)
     {
-        List<Character> gamePieces = new List<Character>();
+        List<Block> blocks = new List<Block>();
 
         for (int i = x - offset; i <= x + offset; i++)
         {
@@ -704,10 +704,10 @@ public class Board : MonoBehaviour
             {
                 if (IsWithinBounds(i, j))
                 {
-                    gamePieces.Add(characters[i, j]);
+                    blocks.Add(this.blocks[i, j]);
                 }
             }
         }
-        return gamePieces;
+        return blocks;
     }
 }

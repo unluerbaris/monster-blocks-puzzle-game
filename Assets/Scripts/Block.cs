@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Block : MonoBehaviour
 {
     public int xIndex;
     public int yIndex;
@@ -26,14 +26,7 @@ public class Character : MonoBehaviour
         YellowBlock,
         BlueBlock,
         PurpleBlock,
-        GreenBlock,
-        Cat,
-        Dog,
-        Sheep,
-        DarkCat,
-        ZombieCat,
-        BrownCat,
-        DarkSheep
+        GreenBlock
     };
 
     private void Update()
@@ -84,7 +77,7 @@ public class Character : MonoBehaviour
 
                 if (board != null)
                 {
-                    board.PlaceCharacter(this, (int)destination.x, (int)destination.y);
+                    board.PlaceBlock(this, (int)destination.x, (int)destination.y);
                 }
                 break;
             }
