@@ -47,6 +47,8 @@ MonoBehaviour:
   height: 10
   borderSize: 1
   swapTime: 0.5
+  fillYOffset: 10
+  fillMoveTime: 0.5
   tileNormalPrefab: {fileID: 8536670152527893570, guid: 9566a48fae5f84cd38156c2d9bafbfd7, type: 3}
   tileObstaclePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
   blockPrefabs:
@@ -55,7 +57,8 @@ MonoBehaviour:
   - {fileID: 2121214874807966623, guid: ee95b448f8ada40a69e21f3e3c3bcf13, type: 3}
   - {fileID: 4086790946773749661, guid: b274abaaa0e0c468abb64468c13c44b6, type: 3}
   - {fileID: 8732561252395465424, guid: 62045da47098d4b11b024a55f0f9a30f, type: 3}
-  fillYOffset: 10
-  fillMoveTime: 0.5
+  adjacentBombPrefab: {fileID: 684649708644565901, guid: 5a215b149393b40949ec3015eae1b21a, type: 3}
+  columnBombPrefab: {fileID: 684649708644565901, guid: 392969e03d84841b88c934cfe757af3d, type: 3}
+  rowBombPrefab: {fileID: 684649708644565901, guid: 603b83b5cff5e4222b696522129ec141, type: 3}
   startingTiles: []
   startingGameBlocks: []

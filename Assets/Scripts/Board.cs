@@ -9,11 +9,19 @@ public class Board : MonoBehaviour
     [SerializeField] int height;
     [SerializeField] int borderSize = 1;
     [SerializeField] float swapTime = 0.5f;
+    [SerializeField] int fillYOffset = 10;
+    [SerializeField] float fillMoveTime = 0.5f;
+
     [SerializeField] GameObject tileNormalPrefab;
     [SerializeField] GameObject tileObstaclePrefab;
     [SerializeField] GameObject[] blockPrefabs;
-    [SerializeField] int fillYOffset = 10;
-    [SerializeField] float fillMoveTime = 0.5f;
+
+    [SerializeField] GameObject adjacentBombPrefab;
+    [SerializeField] GameObject columnBombPrefab;
+    [SerializeField] GameObject rowBombPrefab;
+
+    GameObject clickedTileBomb;
+    GameObject targetTileBomb;
 
     bool playerInputEnabled = true;
 
@@ -93,6 +101,19 @@ public class Board : MonoBehaviour
 
             prefab.transform.parent = transform;
             return prefab.GetComponent<Block>();
+        }
+        return null;
+    }
+
+    GameObject MakeBomb(GameObject prefab, int x, int y)
+    {
+        if (prefab != null && IsWithinBounds(x, y))
+        {
+            GameObject bomb = Instantiate(prefab, new Vector3(x, y, 0), Quaternion.identity) as GameObject;
+            bomb.GetComponent<Bomb>().Init(this);
+            bomb.GetComponent<Bomb>().SetCoord(x, y);
+            bomb.transform.parent = transform;
+            return bomb;
         }
         return null;
     }
@@ -269,7 +290,9 @@ public class Board : MonoBehaviour
                 else
                 {
                     yield return new WaitForSeconds(swapTime);
-
+                    Vector2 swipeDirection = new Vector2(targetTile.xIndex - clickedTile.xIndex, targetTile.yIndex - clickedTile.yIndex);
+                    clickedTileBomb = DropBomb(clickedTile.xIndex, clickedTile.yIndex, swipeDirection, clickedBlockMatches);
+                    targetTileBomb = DropBomb(targetTile.xIndex, targetTile.yIndex, swipeDirection, targetBlockMatches);
                     ClearAndRefillBoard(clickedBlockMatches.Union(targetBlockMatches).ToList());
                 }
             }
@@ -630,6 +653,18 @@ public class Board : MonoBehaviour
             RemoveBlockAt(blocks);
             BreakTileAt(blocks);
 
+            if (clickedTileBomb != null)
+            {
+                ActivateBomb(clickedTileBomb);
+                clickedTileBomb = null;
+            }
+
+            if (targetTileBomb != null)
+            {
+                ActivateBomb(targetTileBomb);
+                targetTileBomb = null;
+            }
+
             yield return new WaitForSeconds(0.25f);
             movingBlocks = CollapseColumn(blocks);
 
@@ -749,5 +784,80 @@ public class Board : MonoBehaviour
             }
         }
         return allBlocksToClear;
+    }
+
+    bool IsCornerMatch(List<Block> blocks)
+    {
+        bool vertical = false;
+        bool horizontal = false;
+        int xStart = -1;
+        int yStart = -1;
+
+        foreach (Block block in blocks)
+        {
+            if (block != null)
+            {
+                if (xStart == -1 || yStart == -1)
+                {
+                    xStart = block.xIndex;
+                    yStart = block.yIndex;
+                    continue;
+                }
+                if (block.xIndex != xStart && block.yIndex == yStart)
+                {
+                    horizontal = true;
+                }
+                if (block.xIndex == xStart && block.yIndex != yStart)
+                {
+                    vertical = true;
+                }
+            }
+        }
+        return (horizontal && vertical);
+    }
+
+    GameObject DropBomb(int x, int y, Vector2 swapDirection, List<Block> blocks)
+    {
+        GameObject bomb = null;
+
+        if (blocks.Count >= 4)
+        {
+            if (IsCornerMatch(blocks))
+            {
+                if (adjacentBombPrefab != null)
+                {
+                    bomb = MakeBomb(adjacentBombPrefab, x, y);
+                }
+            }
+            else
+            {
+                if (swapDirection.x != 0)
+                {
+                    if (rowBombPrefab != null)
+                    {
+                        bomb = MakeBomb(rowBombPrefab, x, y);
+                    }
+                }
+                else
+                {
+                    if (columnBombPrefab != null)
+                    {
+                        bomb = MakeBomb(columnBombPrefab, x, y);
+                    }
+                }
+            }
+        }
+        return bomb;
+    }
+
+    void ActivateBomb(GameObject bomb)
+    {
+        int x = (int)bomb.transform.position.x;
+        int y = (int)bomb.transform.position.y;
+
+        if (IsWithinBounds(x,y))
+        {
+            blocks[x, y] = bomb.GetComponent<Block>();
+        }
     }
 }
