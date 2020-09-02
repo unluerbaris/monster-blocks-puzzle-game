@@ -513,6 +513,7 @@ public class Board : MonoBehaviour
             if (block != null)
             {
                 RemoveBlockAt(block.xIndex, block.yIndex);
+                block.ScorePoints();
             }
         }
     }

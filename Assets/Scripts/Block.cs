@@ -7,6 +7,7 @@ public class Block : MonoBehaviour
     public int yIndex;
     public MatchValue matchValue;
     [SerializeField] InterpolationType interpolation = InterpolationType.SmootherStep;
+    [SerializeField] int scoreValue = 20;
 
     Board board;
     bool isMoving = false;
@@ -113,5 +114,13 @@ public class Block : MonoBehaviour
         }
 
         isMoving = false;
+    }
+
+    public void ScorePoints()
+    {
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddScore(scoreValue);
+        }
     }
 }

@@ -99,4 +99,5 @@ MonoBehaviour:
   yIndex: 0
   matchValue: 2
   interpolation: 4
+  scoreValue: 500
   bombType: 3

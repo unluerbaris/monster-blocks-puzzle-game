@@ -12,7 +12,7 @@ public class ScoreManager : Singleton<ScoreManager>
 
     void Start()
     {
-        
+        UpdateScoreText(currentScore);
     }
 
     public void UpdateScoreText(int scoreValue)
@@ -26,6 +26,7 @@ public class ScoreManager : Singleton<ScoreManager>
     public void AddScore(int value)
     {
         currentScore += value;
+        StartCoroutine(CountScoreRoutine());
     }
 
     IEnumerator CountScoreRoutine()
