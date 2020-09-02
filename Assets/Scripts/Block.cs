@@ -116,11 +116,11 @@ public class Block : MonoBehaviour
         isMoving = false;
     }
 
-    public void ScorePoints()
+    public void ScorePoints(int multiplier = 1, int bonus = 0)
     {
         if (ScoreManager.Instance != null)
         {
-            ScoreManager.Instance.AddScore(scoreValue);
+            ScoreManager.Instance.AddScore(scoreValue * multiplier + bonus);
         }
     }
 }

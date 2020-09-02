@@ -27,6 +27,7 @@ public class Board : MonoBehaviour
 
     [SerializeField] StartingObject[] startingTiles;
     [SerializeField] StartingObject[] startingGameBlocks;
+    [SerializeField] int scoreMultiplier = 0;
 
     Tile[,] tiles;
     Block[,] blocks;
@@ -513,7 +514,14 @@ public class Board : MonoBehaviour
             if (block != null)
             {
                 RemoveBlockAt(block.xIndex, block.yIndex);
-                block.ScorePoints();
+
+                int bonus = 0;
+                if (blocks.Count >= 4)
+                {
+                    bonus = 20;
+                }
+
+                block.ScorePoints(scoreMultiplier, bonus);
             }
         }
     }
@@ -616,8 +624,12 @@ public class Board : MonoBehaviour
         playerInputEnabled = false;
         List<Block> matches = blocks;
 
+        scoreMultiplier = 0;
+
         do
         {
+            scoreMultiplier++;
+
             yield return StartCoroutine(ClearAndCollapseRoutine(matches));
             yield return null;
 
@@ -687,6 +699,7 @@ public class Board : MonoBehaviour
             }
             else
             {
+                scoreMultiplier++;
                 yield return StartCoroutine(ClearAndCollapseRoutine(matches));
             }
         }

@@ -61,4 +61,11 @@ MonoBehaviour:
   columnBombPrefab: {fileID: 684649708644565901, guid: 392969e03d84841b88c934cfe757af3d, type: 3}
   rowBombPrefab: {fileID: 684649708644565901, guid: 603b83b5cff5e4222b696522129ec141, type: 3}
   startingTiles: []
-  startingGameBlocks: []
+  startingGameBlocks:
+  - prefab: {fileID: 684649708644565901, guid: 5a215b149393b40949ec3015eae1b21a, type: 3}
+    x: 5
+    y: 7
+  - prefab: {fileID: 684649708644565901, guid: 392969e03d84841b88c934cfe757af3d, type: 3}
+    x: 5
+    y: 3
+  scoreMultiplier: 0
