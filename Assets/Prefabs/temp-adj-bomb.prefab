@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7775766864929205727}
   - component: {fileID: 5676370344343748910}
   m_Layer: 0
-  m_Name: temp-row-bomb
+  m_Name: temp-adj-bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,4 +99,4 @@ MonoBehaviour:
   yIndex: 0
   matchValue: 2
   interpolation: 4
-  bombType: 2
+  bombType: 3

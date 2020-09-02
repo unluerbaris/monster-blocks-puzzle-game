@@ -650,6 +650,9 @@ public class Board : MonoBehaviour
             List<Block> bombedBlocks = GetBombedBlocks(blocks);
             blocks = blocks.Union(bombedBlocks).ToList();
 
+            bombedBlocks = GetBombedBlocks(blocks);
+            blocks = blocks.Union(bombedBlocks).ToList();
+
             RemoveBlockAt(blocks);
             BreakTileAt(blocks);
 
