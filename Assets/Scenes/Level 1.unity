@@ -1439,6 +1439,10 @@ PrefabInstance:
       propertyPath: messageWindow
       value: 
       objectReference: {fileID: 486857927}
+    - target: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoal
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 8802766444004146393, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: m_Name
       value: Game Manager
