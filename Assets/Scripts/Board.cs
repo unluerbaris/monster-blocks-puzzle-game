@@ -46,11 +46,16 @@ public class Board : MonoBehaviour
     {
         tiles = new Tile[width, height];
         blocks = new Block[width, height];
+        // HighlightMatches();
+    }
+
+    // Call SetupBoard() method from GameManager
+    public void SetupBoard()
+    {
         SetupTiles();
         SetupGameBlocks();
         SetupCamera();
         FillBoard(fillYOffset, fillMoveTime);
-        // HighlightMatches();
     }
 
     private void SetupTiles()
@@ -290,6 +295,11 @@ public class Board : MonoBehaviour
                 }
                 else
                 {
+                    if (GameManager.Instance != null)
+                    {
+                        GameManager.Instance.movesLeft--;
+                        GameManager.Instance.UpdateMoves();
+                    }
                     yield return new WaitForSeconds(swapTime);
                     Vector2 swipeDirection = new Vector2(targetTile.xIndex - clickedTile.xIndex, targetTile.yIndex - clickedTile.yIndex);
                     clickedTileBomb = DropBomb(clickedTile.xIndex, clickedTile.yIndex, swipeDirection, clickedBlockMatches);

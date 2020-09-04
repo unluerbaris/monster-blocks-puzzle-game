@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] int moveLeft = 30;
+    public int movesLeft = 30;
     [SerializeField] int scoreGoal = 10000;
     [SerializeField] Fader fader;
     [SerializeField] Text levelNameText;
+    [SerializeField] Text movesLeftText;
 
     Board board;
 
@@ -27,7 +28,16 @@ public class GameManager : Singleton<GameManager>
             levelNameText.text = scene.name;
         }
 
+        UpdateMoves();
         StartCoroutine("ExecuteGameLoop");
+    }
+
+    public void UpdateMoves()
+    {
+        if (movesLeftText != null)
+        {
+            movesLeftText.text = movesLeft.ToString();
+        }
     }
 
     IEnumerator ExecuteGameLoop()
@@ -49,18 +59,34 @@ public class GameManager : Singleton<GameManager>
         {
             fader.FadeOff();
         }
+
+        yield return new WaitForSeconds(1f);
+
+        if (board != null)
+        {
+            board.SetupBoard();
+        }
     }
 
     IEnumerator PlayGameRoutine()
     {
         while (!isGameOver)
         {
+            if (movesLeft <= 0)
+            {
+                isGameOver = true;
+                isWinner = false;
+            }
             yield return null;
         }
     }
 
     IEnumerator EndGameRoutine()
     {
+        if (fader != null)
+        {
+            fader.FadeOn();
+        }
         if (isWinner)
         {
             Debug.Log("You win!");
