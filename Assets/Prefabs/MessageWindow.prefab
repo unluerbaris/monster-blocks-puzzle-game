@@ -164,6 +164,8 @@ GameObject:
   - component: {fileID: 222000011138214896}
   - component: {fileID: 114000012158035276}
   - component: {fileID: 114000012517543242}
+  - component: {fileID: 494304971}
+  - component: {fileID: 1879411657638257529}
   m_Layer: 5
   m_Name: MessageWindow
   m_TagString: Untagged
@@ -245,6 +247,37 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 20, y: -20}
   m_UseGraphicAlpha: 1
+--- !u!114 &494304971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013936509816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0d72c70e05aa4c44a7960ae92e5dc7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPosition: {x: 0, y: 1500}
+  onScreenPosition: {x: 0, y: 0}
+  endPosition: {x: 0, y: -1500}
+  timeToMove: 1
+--- !u!114 &1879411657638257529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013936509816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64baef9bca56d440ea35073f5e0c975d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageIcon: {fileID: 114000012855320282}
+  messageText: {fileID: 114000012927358226}
+  buttonText: {fileID: 114000010679506696}
 --- !u!1 &1000013972161052
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +370,7 @@ GameObject:
   - component: {fileID: 114000011325815514}
   - component: {fileID: 114000013700505174}
   m_Layer: 5
-  m_Name: StartButton
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -456,7 +489,7 @@ GameObject:
   - component: {fileID: 222000014237534798}
   - component: {fileID: 114000010679506696}
   m_Layer: 5
-  m_Name: StartText
+  m_Name: ButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
