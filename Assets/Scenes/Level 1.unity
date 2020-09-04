@@ -292,6 +292,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MessageWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013700505174, guid: dd4d831d4a46b4672a78ef1882f87df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1014474951}
+    - target: {fileID: 114000013700505174, guid: dd4d831d4a46b4672a78ef1882f87df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1014474951}
     - target: {fileID: 224000011768725060, guid: dd4d831d4a46b4672a78ef1882f87df8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -378,6 +386,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd4d831d4a46b4672a78ef1882f87df8, type: 3}
+--- !u!114 &486857927 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1879411657638257529, guid: dd4d831d4a46b4672a78ef1882f87df8, type: 3}
+  m_PrefabInstance: {fileID: 486857926}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64baef9bca56d440ea35073f5e0c975d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &494304970 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224000011768725060, guid: dd4d831d4a46b4672a78ef1882f87df8, type: 3}
@@ -817,6 +836,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998060936}
   m_CullTransparentMesh: 0
+--- !u!114 &1014474951 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+  m_PrefabInstance: {fileID: 8802766443819877602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcf8fc1a23b764cadb368ee374f862b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1115934874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,6 +1435,10 @@ PrefabInstance:
       propertyPath: movesLeftText
       value: 
       objectReference: {fileID: 45178115}
+    - target: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: messageWindow
+      value: 
+      objectReference: {fileID: 486857927}
     - target: {fileID: 8802766444004146393, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: m_Name
       value: Game Manager

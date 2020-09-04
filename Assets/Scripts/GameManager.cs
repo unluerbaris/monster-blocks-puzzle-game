@@ -12,11 +12,17 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] Text levelNameText;
     [SerializeField] Text movesLeftText;
 
+    [SerializeField] MessageWindow messageWindow;
+    [SerializeField] Sprite loseIcon;
+    [SerializeField] Sprite winIcon;
+    [SerializeField] Sprite goalIcon;
+
     Board board;
 
     bool isReadyToBegin = false;
     bool isGameOver = false;
     bool isWinner = false;
+    bool isReadyToReaload = false;
 
     private void Start()
     {
@@ -47,14 +53,24 @@ public class GameManager : Singleton<GameManager>
         yield return StartCoroutine("EndGameRoutine");
     }
 
+    public void StartGame()
+    {
+        isReadyToBegin = true;
+    }
+
     IEnumerator StartGameRoutine()
     {
+        if (messageWindow != null)
+        {
+            messageWindow.GetComponent<RectTransformMover>().MoveOn();
+            messageWindow.ShowMessage(goalIcon, "score goal\n" + scoreGoal.ToString(), "Start");
+        }
+
         while (!isReadyToBegin)
         {
             yield return null;
-            yield return new WaitForSeconds(2f);
-            isReadyToBegin = true;
         }
+
         if (fader != null)
         {
             fader.FadeOff();
@@ -83,18 +99,40 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator EndGameRoutine()
     {
+        isReadyToReaload = false;
+
         if (fader != null)
         {
             fader.FadeOn();
         }
         if (isWinner)
         {
-            Debug.Log("You win!");
+            if (messageWindow != null)
+            {
+                messageWindow.GetComponent<RectTransformMover>().MoveOn();
+                messageWindow.ShowMessage(winIcon, "You Win!", "OK");
+            }
         }
         else
         {
-            Debug.Log("Game over");
+            if (messageWindow != null)
+            {
+                messageWindow.GetComponent<RectTransformMover>().MoveOn();
+                messageWindow.ShowMessage(loseIcon, "You Lose!", "OK");
+            }
         }
+
+        while (!isReadyToReaload)
+        {
+            yield return null;
+        }
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         yield return null;
+    }
+
+    public void ReloadScene()
+    {
+        isReadyToReaload = true;
     }
 }

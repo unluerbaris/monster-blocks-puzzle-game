@@ -56,8 +56,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf8fc1a23b764cadb368ee374f862b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movesLeft: 30
+  movesLeft: 10
   scoreGoal: 10000
   fader: {fileID: 0}
   levelNameText: {fileID: 0}
   movesLeftText: {fileID: 0}
+  messageWindow: {fileID: 0}
+  loseIcon: {fileID: 21300000, guid: 80d541fb653904fd8a45a82f337b74ee, type: 3}
+  winIcon: {fileID: 21300000, guid: f3732f96b479a48429e8f4b77351d885, type: 3}
+  goalIcon: {fileID: 21300000, guid: 6234ebda17f6149e0937455408a9f330, type: 3}
