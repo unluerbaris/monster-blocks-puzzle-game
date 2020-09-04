@@ -16,7 +16,7 @@ public class Fader : MonoBehaviour
     void Start()
     {
         maskableGraphic = GetComponent<MaskableGraphic>();
-        FadeOff();
+        //FadeOff();
     }
 
     IEnumerator FadeRoutine(float alpha)
