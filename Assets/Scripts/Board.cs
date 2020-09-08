@@ -710,6 +710,10 @@ public class Board : MonoBehaviour
             else
             {
                 scoreMultiplier++;
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayRandomBonusSFX();
+                }
                 yield return StartCoroutine(ClearAndCollapseRoutine(matches));
             }
         }

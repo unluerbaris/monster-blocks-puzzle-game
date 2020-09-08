@@ -100,3 +100,4 @@ MonoBehaviour:
   matchValue: 1
   interpolation: 4
   scoreValue: 100
+  clearSound: {fileID: 8300000, guid: 076d3c82936184029b45096a9aec32ef, type: 3}

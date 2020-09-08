@@ -169,9 +169,15 @@ MonoBehaviour:
   musicClips:
   - {fileID: 8300000, guid: 864da754f8c564974932437651d3a2c4, type: 3}
   - {fileID: 8300000, guid: 52a11c6a82e5d48f7acabf6b00d85952, type: 3}
-  winSFXs: []
-  loseSFXs: []
-  bonusSFXs: []
+  winSFXs:
+  - {fileID: 8300000, guid: 85a40587dbd8b473ba996614436b8fef, type: 3}
+  loseSFXs:
+  - {fileID: 8300000, guid: 265b550be81cd470cb7299d22a241b1d, type: 3}
+  bonusSFXs:
+  - {fileID: 8300000, guid: 3776b46925fbc48fbbcf7e39944be41c, type: 3}
+  - {fileID: 8300000, guid: 349bf5dfb30e045deae7440267500ce8, type: 3}
+  - {fileID: 8300000, guid: ea93cef207cad424ca232e6ea2d92d36, type: 3}
+  - {fileID: 8300000, guid: ff343036686c34ce48ad32c1d227612e, type: 3}
   musicVolume: 0.5
   sfxVolume: 1
   lowPitch: 0.95
@@ -1495,7 +1501,7 @@ PrefabInstance:
       objectReference: {fileID: 486857927}
     - target: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: scoreGoal
-      value: 500
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8802766444004146393, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: m_Name

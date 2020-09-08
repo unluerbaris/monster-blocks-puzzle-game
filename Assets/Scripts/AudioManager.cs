@@ -10,10 +10,10 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip[] bonusSFXs;
 
     [Range(0, 1)]
-    [SerializeField] float musicVolume = 0.5f;
+    public float musicVolume = 0.5f;
 
     [Range(0, 1)]
-    [SerializeField] float sfxVolume = 1.0f;
+    public float sfxVolume = 1.0f;
 
     [SerializeField] float lowPitch = 0.95f;
     [SerializeField] float highPitch = 1.05f;
@@ -35,8 +35,9 @@ public class AudioManager : Singleton<AudioManager>
 
             float randomPitch = Random.Range(lowPitch, highPitch);
             source.pitch = randomPitch;
-
             source.volume = volume;
+           
+            source.Play();
             Destroy(gObject, clip.length);
             return source;
         }
