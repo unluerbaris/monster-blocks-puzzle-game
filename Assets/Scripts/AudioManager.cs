@@ -11,6 +11,7 @@ public class AudioManager : Singleton<AudioManager>
 
     [Range(0, 1)]
     public float musicVolume = 0.5f;
+    [SerializeField] bool musicLoop = true;
 
     [Range(0, 1)]
     public float sfxVolume = 1.0f;
@@ -23,7 +24,7 @@ public class AudioManager : Singleton<AudioManager>
         PlayRandomMusic();
     }
 
-    public AudioSource PlayClipAtPoint(AudioClip clip, Vector2 position, float volume = 1f)
+    public AudioSource PlayClipAtPoint(AudioClip clip, Vector2 position, float volume = 1f, bool isLooping = false)
     {
         if (clip != null)
         {
@@ -33,18 +34,26 @@ public class AudioManager : Singleton<AudioManager>
             AudioSource source = gObject.AddComponent<AudioSource>();
             source.clip = clip;
 
+            if (isLooping)
+            {
+                source.loop = musicLoop;
+            }
+
             float randomPitch = Random.Range(lowPitch, highPitch);
             source.pitch = randomPitch;
             source.volume = volume;
-           
             source.Play();
-            Destroy(gObject, clip.length);
+
+            if (!isLooping)
+            {
+                Destroy(gObject, clip.length);
+            }
             return source;
         }
         return null;
     }
 
-    public AudioSource PlayRandomClip(AudioClip[] clips, Vector2 position, float volume = 1f)
+    public AudioSource PlayRandomClip(AudioClip[] clips, Vector2 position, float volume = 1f, bool isLooping = false)
     {
         if (clips != null)
         {
@@ -54,7 +63,7 @@ public class AudioManager : Singleton<AudioManager>
 
                 if (clips[randomIndex] != null)
                 {
-                    AudioSource source = PlayClipAtPoint(clips[randomIndex], position, volume);
+                    AudioSource source = PlayClipAtPoint(clips[randomIndex], position, volume, isLooping);
                     return source;
                 }
             }
@@ -64,7 +73,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlayRandomMusic()
     {
-        PlayRandomClip(musicClips, Vector2.zero, musicVolume);
+        PlayRandomClip(musicClips, Vector2.zero, musicVolume, true);
     }
 
     public void PlayRandomWinSFX()
