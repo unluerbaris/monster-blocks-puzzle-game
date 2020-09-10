@@ -52,20 +52,15 @@ MonoBehaviour:
   tileNormalPrefab: {fileID: 8536670152527893570, guid: 9566a48fae5f84cd38156c2d9bafbfd7, type: 3}
   tileObstaclePrefab: {fileID: 8536670152527893570, guid: 86621ddfdc36b4a9587645f99f2c0937, type: 3}
   blockPrefabs:
-  - {fileID: 684649708644565901, guid: 5443add6eeefd4bf0a4f1fd46d373194, type: 3}
-  - {fileID: 286612046914281099, guid: 8f215c46f3f10414db6d295a0317819b, type: 3}
-  - {fileID: 2121214874807966623, guid: ee95b448f8ada40a69e21f3e3c3bcf13, type: 3}
-  - {fileID: 4086790946773749661, guid: b274abaaa0e0c468abb64468c13c44b6, type: 3}
-  - {fileID: 8732561252395465424, guid: 62045da47098d4b11b024a55f0f9a30f, type: 3}
-  adjacentBombPrefab: {fileID: 684649708644565901, guid: 5a215b149393b40949ec3015eae1b21a, type: 3}
-  columnBombPrefab: {fileID: 684649708644565901, guid: 392969e03d84841b88c934cfe757af3d, type: 3}
-  rowBombPrefab: {fileID: 684649708644565901, guid: 603b83b5cff5e4222b696522129ec141, type: 3}
+  - {fileID: 684649708644565901, guid: b9f3ca99b01cb476d8a55e4f586f451a, type: 3}
+  - {fileID: 286612046914281099, guid: d99d51037b3954ce1979fe48640746e8, type: 3}
+  - {fileID: 4086790946773749661, guid: 9e981ca25eab04c7099b25cfd47d20a4, type: 3}
+  - {fileID: 8732561252395465424, guid: 7d5581f86f1d64e7fb14af015b2eab9f, type: 3}
+  - {fileID: 2121214874807966623, guid: 82fd818bec0ba4e1782dab5e9e59409f, type: 3}
+  adjacentBombPrefab: {fileID: 684649708644565901, guid: ca6e824e12ad34862b2ae38a6e5a294a, type: 3}
+  columnBombPrefab: {fileID: 684649708644565901, guid: afb6c70c3498e4e2e91fc6d63f120209, type: 3}
+  rowBombPrefab: {fileID: 684649708644565901, guid: f08c6c6eb8dd04caf96832eaab69dcda, type: 3}
   startingTiles: []
-  startingGameBlocks:
-  - prefab: {fileID: 684649708644565901, guid: 5a215b149393b40949ec3015eae1b21a, type: 3}
-    x: 5
-    y: 7
-  - prefab: {fileID: 684649708644565901, guid: 392969e03d84841b88c934cfe757af3d, type: 3}
-    x: 5
-    y: 3
+  startingGameBlocks: []
   scoreMultiplier: 0
+  isRefilling: 0

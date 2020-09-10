@@ -178,7 +178,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 349bf5dfb30e045deae7440267500ce8, type: 3}
   - {fileID: 8300000, guid: ea93cef207cad424ca232e6ea2d92d36, type: 3}
   - {fileID: 8300000, guid: ff343036686c34ce48ad32c1d227612e, type: 3}
-  musicVolume: 0.5
+  musicVolume: 0.4
   sfxVolume: 1
   lowPitch: 0.95
   highPitch: 1.05
