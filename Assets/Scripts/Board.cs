@@ -192,13 +192,13 @@ public class Board : MonoBehaviour
             {
                 if (blocks[i, j] == null && tiles[i, j].tileType != TileType.Obstacle)
                 {
-                    Block character = FillRandomAt(i, j, falseYOffset, moveTime);
+                    FillRandomAt(i, j, falseYOffset, moveTime);
                     iterations = 0;
 
                     while (HasMatchOnFill(i, j))
                     {
                         RemoveBlockAt(i, j);
-                        character = FillRandomAt(i, j, falseYOffset, moveTime);
+                        FillRandomAt(i, j, falseYOffset, moveTime);
 
                         iterations++;
                         if (iterations >= maxIterations)
@@ -611,15 +611,28 @@ public class Board : MonoBehaviour
         return movingBlocks;
     }
 
+    List<Block> CollapseColumn(List<int> columnsToCollapse)
+    {
+        List<Block> movingBlocks = new List<Block>();
+        foreach (int column in columnsToCollapse)
+        {
+            movingBlocks = movingBlocks.Union(CollapseColumn(column)).ToList();
+        }
+        return movingBlocks;
+    }
+
     List<int> GetColumns(List<Block> blocks)
     {
         List<int> columns = new List<int>();
 
         foreach (Block block in blocks)
         {
-            if (!columns.Contains(block.xIndex))
+            if (block != null)
             {
-                columns.Add(block.xIndex);
+                if (!columns.Contains(block.xIndex))
+                {
+                    columns.Add(block.xIndex);
+                }
             }
         }
         return columns;
@@ -680,6 +693,8 @@ public class Board : MonoBehaviour
             bombedBlocks = GetBombedBlocks(blocks);
             blocks = blocks.Union(bombedBlocks).ToList();
 
+            List<int> columnsToCollapse = GetColumns(blocks);
+
             RemoveBlockAt(blocks);
             BreakTileAt(blocks);
 
@@ -696,7 +711,7 @@ public class Board : MonoBehaviour
             }
 
             yield return new WaitForSeconds(0.25f);
-            movingBlocks = CollapseColumn(blocks);
+            movingBlocks = CollapseColumn(columnsToCollapse);
 
             while (!IsCollapsed(movingBlocks))
             {
