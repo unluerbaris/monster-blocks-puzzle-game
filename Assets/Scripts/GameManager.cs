@@ -19,10 +19,22 @@ public class GameManager : Singleton<GameManager>
 
     Board board;
 
-    bool isReadyToBegin = false;
-    bool isGameOver = false;
     bool isWinner = false;
     bool isReadyToReaload = false;
+    bool isReadyToBegin = false;
+
+    bool isGameOver = false;
+    public bool IsGameOver
+    {
+        get
+        {
+            return isGameOver;
+        }
+        set
+        {
+            isGameOver = value;
+        }
+    }
 
     private void Start()
     {
@@ -50,6 +62,9 @@ public class GameManager : Singleton<GameManager>
     {
         yield return StartCoroutine("StartGameRoutine");
         yield return StartCoroutine("PlayGameRoutine");
+
+        // Wait for the board refill
+        yield return StartCoroutine("WaitForBoardRoutine", 0.5f);
         yield return StartCoroutine("EndGameRoutine");
     }
 
@@ -103,6 +118,19 @@ public class GameManager : Singleton<GameManager>
             }
             yield return null;
         }
+    }
+
+    IEnumerator WaitForBoardRoutine(float delay = 0f)
+    {
+        if (board != null)
+        {
+            yield return new WaitForSeconds(board.swapTime);
+            while (board.isRefilling)
+            {
+                yield return null;
+            }
+        }
+        yield return new WaitForSeconds(delay);
     }
 
     IEnumerator EndGameRoutine()

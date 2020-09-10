@@ -8,7 +8,7 @@ public class Board : MonoBehaviour
     [SerializeField] int width;
     [SerializeField] int height;
     [SerializeField] int borderSize = 1;
-    [SerializeField] float swapTime = 0.5f;
+    public float swapTime = 0.5f;
     [SerializeField] int fillYOffset = 10;
     [SerializeField] float fillMoveTime = 0.5f;
 
@@ -28,6 +28,7 @@ public class Board : MonoBehaviour
     [SerializeField] StartingObject[] startingTiles;
     [SerializeField] StartingObject[] startingGameBlocks;
     [SerializeField] int scoreMultiplier = 0;
+    public bool isRefilling = false;
 
     Tile[,] tiles;
     Block[,] blocks;
@@ -273,7 +274,7 @@ public class Board : MonoBehaviour
 
     IEnumerator SwitchTilesRoutine(Tile clickedTile, Tile targetTile)
     {
-        if (playerInputEnabled)
+        if (playerInputEnabled && !GameManager.Instance.IsGameOver)
         {
             Block clickedBlock = blocks[clickedTile.xIndex, clickedTile.yIndex];
             Block targetBlock = blocks[targetTile.xIndex, targetTile.yIndex];
@@ -632,6 +633,8 @@ public class Board : MonoBehaviour
     IEnumerator ClearAndRefillBoardRoutine(List<Block> blocks)
     {
         playerInputEnabled = false;
+        isRefilling = true;
+
         List<Block> matches = blocks;
 
         scoreMultiplier = 0;
@@ -651,6 +654,7 @@ public class Board : MonoBehaviour
         while (matches.Count != 0);
 
         playerInputEnabled = true;
+        isRefilling = false;
     }
 
     IEnumerator RefillRoutine()
