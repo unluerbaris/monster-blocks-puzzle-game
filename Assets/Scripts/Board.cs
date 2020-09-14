@@ -298,7 +298,7 @@ public class Board : MonoBehaviour
                 {
                     if (GameManager.Instance != null)
                     {
-                        GameManager.Instance.movesLeft--;
+                        //GameManager.Instance.movesLeft--;
                         GameManager.Instance.UpdateMoves();
                     }
                     yield return new WaitForSeconds(swapTime);

@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(LevelGoal))]
 public class GameManager : Singleton<GameManager>
 {
     public int movesLeft = 30;
-    [SerializeField] int scoreGoal = 10000;
+    //[SerializeField] int scoreGoal = 10000;
     [SerializeField] Fader fader;
     [SerializeField] Text levelNameText;
     [SerializeField] Text movesLeftText;
@@ -18,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] Sprite goalIcon;
 
     Board board;
+    LevelGoal levelGoal;
 
     bool isWinner = false;
     bool isReadyToReaload = false;
@@ -36,9 +38,15 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public override void Awake()
+    {
+        base.Awake();
+        levelGoal = GetComponent<LevelGoal>();
+        board = GameObject.FindObjectOfType<Board>().GetComponent<Board>();
+    }
+
     private void Start()
     {
-        board = GameObject.FindObjectOfType<Board>().GetComponent<Board>();
         Scene scene = SceneManager.GetActiveScene();
 
         if (levelNameText != null)
@@ -46,15 +54,18 @@ public class GameManager : Singleton<GameManager>
             levelNameText.text = scene.name;
         }
 
+        levelGoal.movesLeft++;
         UpdateMoves();
         StartCoroutine("ExecuteGameLoop");
     }
 
     public void UpdateMoves()
     {
+        levelGoal.movesLeft--;
+
         if (movesLeftText != null)
         {
-            movesLeftText.text = movesLeft.ToString();
+            movesLeftText.text = levelGoal.movesLeft.ToString();
         }
     }
 
@@ -78,7 +89,7 @@ public class GameManager : Singleton<GameManager>
         if (messageWindow != null)
         {
             messageWindow.GetComponent<RectTransformMover>().MoveOn();
-            messageWindow.ShowMessage(goalIcon, "score goal\n" + scoreGoal.ToString(), "Start");
+            messageWindow.ShowMessage(goalIcon, "score goal\n" + levelGoal.scoreGoals[0].ToString(), "Start");
         }
 
         while (!isReadyToBegin)
@@ -105,13 +116,13 @@ public class GameManager : Singleton<GameManager>
         {
             if (ScoreManager.Instance != null)
             {
-                if (ScoreManager.Instance.CurrentScore >= scoreGoal)
+                if (ScoreManager.Instance.CurrentScore >= levelGoal.scoreGoals[0])
                 {
                     isGameOver = true;
                     isWinner = true;
                 }
             }
-            if (movesLeft <= 0)
+            if (levelGoal.movesLeft <= 0)
             {
                 isGameOver = true;
                 isWinner = false;
