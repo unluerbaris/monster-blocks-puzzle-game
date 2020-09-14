@@ -531,8 +531,10 @@ public class Board : MonoBehaviour
                 {
                     bonus = 20;
                 }
-
-                block.ScorePoints(scoreMultiplier, bonus);
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.ScorePoints(block, scoreMultiplier, bonus);
+                }
             }
         }
     }

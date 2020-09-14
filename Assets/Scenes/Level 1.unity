@@ -341,26 +341,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131068183}
   m_CullTransparentMesh: 0
---- !u!1 &339071960 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8802766444004146393, guid: a3c01b6961d74483c84783705e72c875, type: 3}
-  m_PrefabInstance: {fileID: 8802766443819877602}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &339071961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339071960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10e7781b538204dfcb83936a05ae1a85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreStars: 0
-  scoreGoals: 8813000010270000983a0000
-  movesLeft: 20
 --- !u!1001 &486857926
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -921,7 +901,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
   m_PrefabInstance: {fileID: 8802766443819877602}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339071960}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcf8fc1a23b764cadb368ee374f862b2, type: 3}
@@ -1520,10 +1500,6 @@ PrefabInstance:
       propertyPath: messageWindow
       value: 
       objectReference: {fileID: 486857927}
-    - target: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
-      propertyPath: scoreGoal
-      value: 10000
-      objectReference: {fileID: 0}
     - target: {fileID: 8802766444004146393, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: m_Name
       value: Game Manager

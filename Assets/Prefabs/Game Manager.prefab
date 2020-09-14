@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8802766444004146399}
   - component: {fileID: 8802766444004146398}
   - component: {fileID: 1143072583}
+  - component: {fileID: 339071961}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -57,7 +58,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movesLeft: 10
-  scoreGoal: 10000
   fader: {fileID: 0}
   levelNameText: {fileID: 0}
   movesLeftText: {fileID: 0}
@@ -65,3 +65,18 @@ MonoBehaviour:
   loseIcon: {fileID: 21300000, guid: 80d541fb653904fd8a45a82f337b74ee, type: 3}
   winIcon: {fileID: 21300000, guid: f3732f96b479a48429e8f4b77351d885, type: 3}
   goalIcon: {fileID: 21300000, guid: 6234ebda17f6149e0937455408a9f330, type: 3}
+--- !u!114 &339071961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8802766444004146393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8db7dcd2d5914d0a90cc371e07aec96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreStars: 0
+  scoreGoals: 8813000010270000983a0000
+  movesLeft: 20

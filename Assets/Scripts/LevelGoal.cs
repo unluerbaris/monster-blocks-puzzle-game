@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelGoal : Singleton<LevelGoal>
+public abstract class LevelGoal : Singleton<LevelGoal>
 {
     public int scoreStars = 0;
     public int[] scoreGoals = new int[3] { 5000, 10000, 15000 };
@@ -13,7 +13,7 @@ public class LevelGoal : Singleton<LevelGoal>
         Init();
     }
 
-    public void Init()
+    private void Init()
     {
         scoreStars = 0;
         for (int i = 1; i < scoreGoals.Length; i++)
@@ -25,7 +25,7 @@ public class LevelGoal : Singleton<LevelGoal>
         }
     }
 
-    public int UpdateScore(int score)
+    private int UpdateScore(int score)
     {
         for (int i = 0; i < scoreGoals.Length; i++)
         {
@@ -41,4 +41,7 @@ public class LevelGoal : Singleton<LevelGoal>
     {
         scoreStars = UpdateScore(score);
     }
+
+    public abstract bool IsWinner();
+    public abstract bool IsGameOver();
 }

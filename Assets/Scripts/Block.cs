@@ -7,8 +7,8 @@ public class Block : MonoBehaviour
     public int yIndex;
     public MatchValue matchValue;
     [SerializeField] InterpolationType interpolation = InterpolationType.SmootherStep;
-    [SerializeField] int scoreValue = 20;
-    [SerializeField] AudioClip clearSound;
+    public int scoreValue = 20;
+    public AudioClip clearSound;
 
     Board board;
     bool isMoving = false;
@@ -115,18 +115,5 @@ public class Block : MonoBehaviour
         }
 
         isMoving = false;
-    }
-
-    public void ScorePoints(int multiplier = 1, int bonus = 0)
-    {
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.AddScore(scoreValue * multiplier + bonus);
-        }
-
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayClipAtPoint(clearSound, Vector2.zero, AudioManager.Instance.sfxVolume);
-        }
     }
 }
