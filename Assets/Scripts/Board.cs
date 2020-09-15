@@ -16,9 +16,9 @@ public class Board : MonoBehaviour
     [SerializeField] GameObject tileObstaclePrefab;
     [SerializeField] GameObject[] blockPrefabs;
 
-    [SerializeField] GameObject adjacentBombPrefab;
-    [SerializeField] GameObject columnBombPrefab;
-    [SerializeField] GameObject rowBombPrefab;
+    [SerializeField] GameObject[] adjacentBombPrefabs;
+    [SerializeField] GameObject[] columnBombPrefabs;
+    [SerializeField] GameObject[] rowBombPrefabs;
 
     GameObject clickedTileBomb;
     GameObject targetTileBomb;
@@ -868,6 +868,20 @@ public class Board : MonoBehaviour
         return (horizontal && vertical);
     }
 
+    private GameObject GetBomb(GameObject[] bombsArray, List<Block> blocks)
+    {
+        foreach (GameObject bombObject in bombsArray)
+        {
+            Block bombBlock = bombObject.GetComponent<Block>();
+
+            if (bombBlock.matchValue == blocks[0].matchValue)
+            {
+                return bombObject;
+            }
+        }
+        return null;
+    }
+
     GameObject DropBomb(int x, int y, Vector2 swapDirection, List<Block> blocks)
     {
         GameObject bomb = null;
@@ -876,25 +890,25 @@ public class Board : MonoBehaviour
         {
             if (IsCornerMatch(blocks))
             {
-                if (adjacentBombPrefab != null)
+                if (adjacentBombPrefabs != null)
                 {
-                    bomb = MakeBomb(adjacentBombPrefab, x, y);
+                    bomb = MakeBomb(GetBomb(adjacentBombPrefabs, blocks), x, y);
                 }
             }
             else
             {
                 if (swapDirection.x != 0)
                 {
-                    if (rowBombPrefab != null)
+                    if (rowBombPrefabs != null)
                     {
-                        bomb = MakeBomb(rowBombPrefab, x, y);
+                        bomb = MakeBomb(GetBomb(rowBombPrefabs, blocks), x, y);
                     }
                 }
                 else
                 {
-                    if (columnBombPrefab != null)
+                    if (columnBombPrefabs != null)
                     {
-                        bomb = MakeBomb(columnBombPrefab, x, y);
+                        bomb = MakeBomb(GetBomb(columnBombPrefabs, blocks), x, y);
                     }
                 }
             }

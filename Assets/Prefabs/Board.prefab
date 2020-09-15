@@ -57,9 +57,24 @@ MonoBehaviour:
   - {fileID: 4086790946773749661, guid: 9e981ca25eab04c7099b25cfd47d20a4, type: 3}
   - {fileID: 8732561252395465424, guid: 7d5581f86f1d64e7fb14af015b2eab9f, type: 3}
   - {fileID: 2121214874807966623, guid: 82fd818bec0ba4e1782dab5e9e59409f, type: 3}
-  adjacentBombPrefab: {fileID: 684649708644565901, guid: ca6e824e12ad34862b2ae38a6e5a294a, type: 3}
-  columnBombPrefab: {fileID: 684649708644565901, guid: afb6c70c3498e4e2e91fc6d63f120209, type: 3}
-  rowBombPrefab: {fileID: 684649708644565901, guid: f08c6c6eb8dd04caf96832eaab69dcda, type: 3}
+  adjacentBombPrefabs:
+  - {fileID: 684649708644565901, guid: 535b2a24f9759426da498a47d89276b5, type: 3}
+  - {fileID: 684649708644565901, guid: 91c0847c65fda4848ac119b0c3a9b513, type: 3}
+  - {fileID: 684649708644565901, guid: 60e3eb01062b8453cbf993d8d24d08d8, type: 3}
+  - {fileID: 684649708644565901, guid: ca6e824e12ad34862b2ae38a6e5a294a, type: 3}
+  - {fileID: 684649708644565901, guid: 244337421fbc445af86f38127747619d, type: 3}
+  columnBombPrefabs:
+  - {fileID: 684649708644565901, guid: 6c552bc2a2fcd4105b8891bc782789f7, type: 3}
+  - {fileID: 684649708644565901, guid: 4bc153b0ba6564b9a938a892a9b7f349, type: 3}
+  - {fileID: 684649708644565901, guid: 45ad3626f79a34e4fb822bacd1f4a867, type: 3}
+  - {fileID: 684649708644565901, guid: afb6c70c3498e4e2e91fc6d63f120209, type: 3}
+  - {fileID: 684649708644565901, guid: 831bcd9d459944c1ab9567fcd9f745b3, type: 3}
+  rowBombPrefabs:
+  - {fileID: 684649708644565901, guid: 19571288e599342d1ace8252cb9c3e81, type: 3}
+  - {fileID: 684649708644565901, guid: 8998215be7c2d425d9bdd6b9f9c4c185, type: 3}
+  - {fileID: 684649708644565901, guid: f67d693b006d340afbcea0f44c08d46a, type: 3}
+  - {fileID: 684649708644565901, guid: f08c6c6eb8dd04caf96832eaab69dcda, type: 3}
+  - {fileID: 684649708644565901, guid: 794551553802141159860d31d8992129, type: 3}
   startingTiles: []
   startingGameBlocks: []
   scoreMultiplier: 0
