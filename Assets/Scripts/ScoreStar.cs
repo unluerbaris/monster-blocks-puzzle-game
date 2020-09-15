@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -13,7 +12,6 @@ public class ScoreStar : MonoBehaviour
     void Start()
     {
         SetActive(false);
-        StartCoroutine(TestRoutine());
     }
 
     void SetActive(bool state)
@@ -44,11 +42,5 @@ public class ScoreStar : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
         SetActive(true);
-    }
-
-    IEnumerator TestRoutine()
-    {
-        yield return new WaitForSeconds(3f);
-        Activate();
     }
 }

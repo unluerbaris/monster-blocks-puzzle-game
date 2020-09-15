@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(LevelGoal))]
 public class GameManager : Singleton<GameManager>
 {
-    public int movesLeft = 30;
+    //public int movesLeft = 30;
     //[SerializeField] int scoreGoal = 10000;
     [SerializeField] Fader fader;
     [SerializeField] Text levelNameText;
@@ -17,6 +17,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] Sprite loseIcon;
     [SerializeField] Sprite winIcon;
     [SerializeField] Sprite goalIcon;
+    [SerializeField] ScoreMeter scoreMeter;
 
     Board board;
     LevelGoal levelGoal;
@@ -47,6 +48,11 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        if (scoreMeter != null)
+        {
+            scoreMeter.SetupStars(levelGoal);
+        }
+
         Scene scene = SceneManager.GetActiveScene();
 
         if (levelNameText != null)
@@ -193,6 +199,11 @@ public class GameManager : Singleton<GameManager>
         {
             ScoreManager.Instance.AddScore(block.scoreValue * multiplier + bonus);
             levelGoal.UpdateScoreStars(ScoreManager.Instance.CurrentScore);
+
+            if (scoreMeter != null)
+            {
+                scoreMeter.UpdateScoreMeter(ScoreManager.Instance.CurrentScore, levelGoal.scoreStars);
+            }
         }
 
         if (AudioManager.Instance != null && block.clearSound != null)
