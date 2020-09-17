@@ -14,9 +14,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] Text movesLeftText;
 
     [SerializeField] MessageWindow messageWindow;
-    [SerializeField] Sprite loseIcon;
-    [SerializeField] Sprite winIcon;
-    [SerializeField] Sprite goalIcon;
     [SerializeField] ScoreMeter scoreMeter;
 
     Board board;
@@ -95,7 +92,8 @@ public class GameManager : Singleton<GameManager>
         if (messageWindow != null)
         {
             messageWindow.GetComponent<RectTransformMover>().MoveOn();
-            messageWindow.ShowMessage(goalIcon, "score goal\n" + levelGoal.scoreGoals[0].ToString(), "Start");
+            int maxGoal = levelGoal.scoreGoals.Length - 1;
+            messageWindow.ShowScoreMessage(levelGoal.scoreGoals[maxGoal]);
         }
 
         while (!isReadyToBegin)
@@ -148,7 +146,7 @@ public class GameManager : Singleton<GameManager>
             if (messageWindow != null)
             {
                 messageWindow.GetComponent<RectTransformMover>().MoveOn();
-                messageWindow.ShowMessage(winIcon, "You Win!", "OK");
+                messageWindow.ShowWinMessage();
             }
 
             if (AudioManager.Instance != null)
@@ -161,7 +159,7 @@ public class GameManager : Singleton<GameManager>
             if (messageWindow != null)
             {
                 messageWindow.GetComponent<RectTransformMover>().MoveOn();
-                messageWindow.ShowMessage(loseIcon, "You Lose!", "OK");
+                messageWindow.ShowLoseMessage();
             }
 
             if (AudioManager.Instance != null)

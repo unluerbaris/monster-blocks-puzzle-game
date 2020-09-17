@@ -9,6 +9,9 @@ public class MessageWindow : MonoBehaviour
     [SerializeField] Image messageIcon;
     [SerializeField] Text messageText;
     [SerializeField] Text buttonText;
+    [SerializeField] Sprite loseIcon;
+    [SerializeField] Sprite winIcon;
+    [SerializeField] Sprite goalIcon;
 
     public void ShowMessage(Sprite sprite = null, string message = "", string buttonMessage = "Start")
     {
@@ -24,5 +27,21 @@ public class MessageWindow : MonoBehaviour
         {
             buttonText.text = buttonMessage;
         }
+    }
+
+    public void ShowScoreMessage(int scoreGoal)
+    {
+        string message = "score goal \n" + scoreGoal.ToString();
+        ShowMessage(goalIcon, message, "start");
+    }
+
+    public void ShowWinMessage()
+    {
+        ShowMessage(winIcon, "level\ncomplete", "ok");
+    }
+
+    public void ShowLoseMessage()
+    {
+        ShowMessage(loseIcon, "level\nfailed", "ok");
     }
 }

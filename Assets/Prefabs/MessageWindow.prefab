@@ -278,6 +278,9 @@ MonoBehaviour:
   messageIcon: {fileID: 114000012855320282}
   messageText: {fileID: 114000012927358226}
   buttonText: {fileID: 0}
+  loseIcon: {fileID: 21300000, guid: 80d541fb653904fd8a45a82f337b74ee, type: 3}
+  winIcon: {fileID: 21300000, guid: f3732f96b479a48429e8f4b77351d885, type: 3}
+  goalIcon: {fileID: 21300000, guid: 6234ebda17f6149e0937455408a9f330, type: 3}
 --- !u!1 &1000013972161052
 GameObject:
   m_ObjectHideFlags: 0
