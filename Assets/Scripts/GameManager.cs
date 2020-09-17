@@ -144,29 +144,11 @@ public class GameManager : Singleton<GameManager>
 
         if (isWinner)
         {
-            if (messageWindow != null)
-            {
-                messageWindow.GetComponent<RectTransformMover>().MoveOn();
-                messageWindow.ShowWinMessage();
-            }
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayRandomWinSFX();
-            }
+            ShowWinScreen();
         }
         else
         {
-            if (messageWindow != null)
-            {
-                messageWindow.GetComponent<RectTransformMover>().MoveOn();
-                messageWindow.ShowLoseMessage();
-            }
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayRandomLoseSFX();
-            }
+            ShowLoseScreen();
         }
 
         yield return new WaitForSeconds(1f);
@@ -183,6 +165,46 @@ public class GameManager : Singleton<GameManager>
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         yield return null;
+    }
+
+    private void ShowLoseScreen()
+    {
+        if (messageWindow != null)
+        {
+            messageWindow.GetComponent<RectTransformMover>().MoveOn();
+            messageWindow.ShowLoseMessage();
+
+            if (messageWindow.goalFailedIcon != null)
+            {
+                string caption = "out of moves!";
+                messageWindow.ShowInfo(caption, messageWindow.goalFailedIcon);
+            }
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayRandomLoseSFX();
+        }
+    }
+
+    private void ShowWinScreen()
+    {
+        if (messageWindow != null)
+        {
+            messageWindow.GetComponent<RectTransformMover>().MoveOn();
+            messageWindow.ShowWinMessage();
+
+            if (ScoreManager.Instance != null)
+            {
+                string scoreString = "you scored\n" + ScoreManager.Instance.CurrentScore.ToString() + " points!";
+                messageWindow.ShowInfo(scoreString, messageWindow.goalCompleteIcon);
+            }
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayRandomWinSFX();
+        }
     }
 
     public void ReloadScene()

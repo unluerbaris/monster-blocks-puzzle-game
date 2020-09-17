@@ -12,6 +12,8 @@ public class MessageWindow : MonoBehaviour
     [SerializeField] Sprite loseIcon;
     [SerializeField] Sprite winIcon;
     [SerializeField] Sprite goalIcon;
+    public Sprite goalCompleteIcon;
+    public Sprite goalFailedIcon;
     [SerializeField] Sprite movesIcon;
     [SerializeField] Image infoImage;
     [SerializeField] Text infoText;
