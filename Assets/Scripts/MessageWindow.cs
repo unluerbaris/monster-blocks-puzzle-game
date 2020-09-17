@@ -12,6 +12,9 @@ public class MessageWindow : MonoBehaviour
     [SerializeField] Sprite loseIcon;
     [SerializeField] Sprite winIcon;
     [SerializeField] Sprite goalIcon;
+    [SerializeField] Sprite movesIcon;
+    [SerializeField] Image infoImage;
+    [SerializeField] Text infoText;
 
     public void ShowMessage(Sprite sprite = null, string message = "", string buttonMessage = "Start")
     {
@@ -43,5 +46,23 @@ public class MessageWindow : MonoBehaviour
     public void ShowLoseMessage()
     {
         ShowMessage(loseIcon, "level\nfailed", "ok");
+    }
+
+    public void ShowInfo(string caption = "", Sprite icon = null)
+    {
+        if (infoText != null && caption != "")
+        {
+            infoText.text = caption;
+        }
+        if (infoImage != null && icon != null)
+        {
+            infoImage.sprite = icon;
+        }
+    }
+
+    public void ShowMoves(int moves)
+    {
+        string caption = moves.ToString() + " moves";
+        ShowInfo(caption, movesIcon);
     }
 }

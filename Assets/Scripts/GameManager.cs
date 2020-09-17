@@ -93,7 +93,8 @@ public class GameManager : Singleton<GameManager>
         {
             messageWindow.GetComponent<RectTransformMover>().MoveOn();
             int maxGoal = levelGoal.scoreGoals.Length - 1;
-            messageWindow.ShowScoreMessage(levelGoal.scoreGoals[maxGoal]);
+            messageWindow.ShowScoreMessage(levelGoal.scoreGoals[0]);
+            messageWindow.ShowMoves(levelGoal.movesLeft);
         }
 
         while (!isReadyToBegin)
