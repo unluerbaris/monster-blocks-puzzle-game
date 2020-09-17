@@ -141,6 +141,7 @@ public class GameManager : Singleton<GameManager>
     IEnumerator EndGameRoutine()
     {
         isReadyToReaload = false;
+        isWinner = levelGoal.IsWinner();
 
         if (isWinner)
         {
