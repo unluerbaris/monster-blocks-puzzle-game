@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5777529471385073563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5777529471385073556}
+  - component: {fileID: 5777529471385073557}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5777529471385073556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5777529471385073563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5777529471385073557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5777529471385073563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40dab3f37c9224880833cba67e4f49a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicClips:
+  - {fileID: 8300000, guid: 864da754f8c564974932437651d3a2c4, type: 3}
+  - {fileID: 8300000, guid: 52a11c6a82e5d48f7acabf6b00d85952, type: 3}
+  winSFXs:
+  - {fileID: 8300000, guid: 85a40587dbd8b473ba996614436b8fef, type: 3}
+  loseSFXs:
+  - {fileID: 8300000, guid: 265b550be81cd470cb7299d22a241b1d, type: 3}
+  bonusSFXs:
+  - {fileID: 8300000, guid: 3776b46925fbc48fbbcf7e39944be41c, type: 3}
+  - {fileID: 8300000, guid: 349bf5dfb30e045deae7440267500ce8, type: 3}
+  - {fileID: 8300000, guid: ea93cef207cad424ca232e6ea2d92d36, type: 3}
+  - {fileID: 8300000, guid: ff343036686c34ce48ad32c1d227612e, type: 3}
+  musicVolume: 0.4
+  musicLoop: 1
+  sfxVolume: 1
+  lowPitch: 0.95
+  highPitch: 1.05
