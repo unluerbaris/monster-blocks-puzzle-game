@@ -61,6 +61,7 @@ MonoBehaviour:
   levelNameText: {fileID: 0}
   movesLeftText: {fileID: 0}
   messageWindow: {fileID: 0}
+  messageWindowButtonText: {fileID: 0}
   scoreMeter: {fileID: 0}
 --- !u!114 &339071961
 MonoBehaviour:

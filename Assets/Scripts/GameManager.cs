@@ -14,6 +14,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] Text movesLeftText;
 
     [SerializeField] MessageWindow messageWindow;
+    [SerializeField] Text messageWindowButtonText;
     [SerializeField] ScoreMeter scoreMeter;
 
     Board board;
@@ -164,7 +165,17 @@ public class GameManager : Singleton<GameManager>
             yield return null;
         }
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (SceneManager.GetSceneByBuildIndex(currentSceneIndex + 1) != null && isWinner)
+        {
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(currentSceneIndex);
+        }
+        
         yield return null;
     }
 
@@ -197,6 +208,7 @@ public class GameManager : Singleton<GameManager>
 
             if (ScoreManager.Instance != null)
             {
+                messageWindowButtonText.text = "Next Level";
                 string scoreString = "you scored\n" + ScoreManager.Instance.CurrentScore.ToString() + " points!";
                 messageWindow.ShowInfo(scoreString, messageWindow.goalCompleteIcon);
             }
