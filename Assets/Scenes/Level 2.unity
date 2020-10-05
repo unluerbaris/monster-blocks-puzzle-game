@@ -1577,13 +1577,33 @@ PrefabInstance:
       value: Board
       objectReference: {fileID: 0}
     - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: blockPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: adjacentBombPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: columnBombPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: rowBombPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
       propertyPath: width
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
       propertyPath: height
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
+      propertyPath: blockPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 2121214874807966623, guid: e4f2aab30fe9a4add995357feeb0ab4c, type: 3}
     - target: {fileID: 8154351941173163630, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1637,6 +1657,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1115934875}
     m_Modifications:
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[0]
+      value: 6000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[1]
+      value: 12000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[2]
+      value: 16000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: movesLeft
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: fader
       value: 
