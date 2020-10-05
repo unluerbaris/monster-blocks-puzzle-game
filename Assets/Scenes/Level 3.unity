@@ -1637,6 +1637,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1115934875}
     m_Modifications:
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[0]
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[1]
+      value: 14000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[2]
+      value: 20000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: movesLeft
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: fader
       value: 
