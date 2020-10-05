@@ -16,6 +16,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] MessageWindow messageWindow;
     [SerializeField] Text messageWindowButtonText;
     [SerializeField] ScoreMeter scoreMeter;
+    int lastSceneIndex = 4;
 
     Board board;
     LevelGoal levelGoal;
@@ -167,9 +168,13 @@ public class GameManager : Singleton<GameManager>
 
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (SceneManager.GetSceneByBuildIndex(currentSceneIndex + 1) != null && isWinner)
+        if (currentSceneIndex < lastSceneIndex && isWinner)
         {
             SceneManager.LoadScene(currentSceneIndex + 1);
+        }
+        else if (currentSceneIndex >= lastSceneIndex && isWinner)
+        {
+            SceneManager.LoadScene(0);
         }
         else
         {
