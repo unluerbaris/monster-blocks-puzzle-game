@@ -77,4 +77,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreStars: 0
   scoreGoals: 8813000010270000983a0000
-  movesLeft: 10
+  movesLeft: 12
