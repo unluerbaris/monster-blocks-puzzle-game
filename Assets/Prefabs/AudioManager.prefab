@@ -44,8 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicClips:
-  - {fileID: 8300000, guid: 864da754f8c564974932437651d3a2c4, type: 3}
+  - {fileID: 8300000, guid: 2f2191ca5aa1f43da8e4d2fd1aa6ee63, type: 3}
   - {fileID: 8300000, guid: 52a11c6a82e5d48f7acabf6b00d85952, type: 3}
+  - {fileID: 8300000, guid: a0c1affeb71e948568fcbf7e4e1799dd, type: 3}
+  - {fileID: 8300000, guid: 5b1b59a1bb51b47b5b69138013bc6ca6, type: 3}
+  - {fileID: 8300000, guid: 6afe6d2dcdfe341199f697ce5619c637, type: 3}
   winSFXs:
   - {fileID: 8300000, guid: 85a40587dbd8b473ba996614436b8fef, type: 3}
   loseSFXs:
@@ -55,7 +58,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 349bf5dfb30e045deae7440267500ce8, type: 3}
   - {fileID: 8300000, guid: ea93cef207cad424ca232e6ea2d92d36, type: 3}
   - {fileID: 8300000, guid: ff343036686c34ce48ad32c1d227612e, type: 3}
-  musicVolume: 0.4
+  musicVolume: 1
   musicLoop: 1
   sfxVolume: 1
   lowPitch: 0.95
