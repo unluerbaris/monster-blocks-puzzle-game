@@ -1578,11 +1578,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
       propertyPath: width
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8154351941173163625, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
       propertyPath: height
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8154351941173163630, guid: 8281fdaea832145b6b4f371636f0e279, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1637,6 +1637,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1115934875}
     m_Modifications:
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[0]
+      value: 15000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[1]
+      value: 20000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: scoreGoals.Array.data[2]
+      value: 25000
+      objectReference: {fileID: 0}
+    - target: {fileID: 339071961, guid: a3c01b6961d74483c84783705e72c875, type: 3}
+      propertyPath: movesLeft
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 1143072583, guid: a3c01b6961d74483c84783705e72c875, type: 3}
       propertyPath: fader
       value: 
